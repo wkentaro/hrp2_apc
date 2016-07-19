@@ -1,0 +1,18 @@
+<package>
+  <name>hrp2_apc</name>
+  <version>0.0.1</version>
+
+  <description>
+    Amazon Picking Challenge with HRP2 robot
+  </description>
+  <author email="www.kentaro.wada@gmail.com">Kentaro Wada</author>
+  <maintainer email="www.kentaro.wada@gmail.com">Kentaro Wada</maintainer>
+
+  <license>MIT</license>
+  <url>http://github.com/wkentaro/hrp2_apc</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>jsk_data</run_depend>
+
+</package>
