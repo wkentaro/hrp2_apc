@@ -1,6 +1,14 @@
 - git:
+    local-name: OctoMap/octomap_mapping
+    uri: https://github.com/OctoMap/octomap_mapping.git
+    version: indigo-devel
+- git:
     local-name: jsk-ros-pkg/jsk_recognition
     uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
+    version: master
+- git:
+    local-name: start-jsk/jsk_apc
+    uri: https://github.com/start-jsk/jsk_apc.git
     version: master
 - git:
     local-name: start-jsk/rtmros_hrp2
