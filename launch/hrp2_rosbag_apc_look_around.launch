@@ -1,0 +1,23 @@
+<launch>
+
+  <include file="$(find jsk_data)/launch/hrp2_play.launch">
+    <arg name="bagfile_names" value="$(find hrp2_apc)/raw_data/2016-07-19-16-46-05-hrp2_rosbag_apc_look_around.bag" />
+    <arg name="launch_openni" value="true" />
+    <arg name="launch_multisense" value="false" />
+  </include>
+
+  <node name="octomap_server_node"
+        pkg="octomap_server" type="octomap_server_node">
+    <remap from="cloud_in" to="/camera_remote/depth_registered/points" />
+    <rosparam>
+      frame_id: ground
+      base_frame_id: odom
+    </rosparam>
+  </node>
+
+  <node name="rviz"
+        pkg="rviz" type="rviz"
+        args="-d $(find hrp2_apc)/rvizconfig/hrp2_rosbag_apc_look_around.rviz">
+  </node>
+
+</launch>
