@@ -1,4 +1,8 @@
 - git:
+    local-name: start-jsk/rtmros_tutorials
+    uri: https://github.com/start-jsk/rtmros_tutorials.git
+    version: master
+- git:
     local-name: wkentaro/hrp2_apc
     uri: git@github.com:wkentaro/hrp2_apc.git
     version: master
