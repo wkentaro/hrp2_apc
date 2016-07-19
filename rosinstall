@@ -1,0 +1,4 @@
+- git:
+    local-name: wkentaro/hrp2_apc
+    uri: git@github.com:wkentaro/hrp2_apc.git
+    version: master
