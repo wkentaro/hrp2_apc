@@ -4,7 +4,11 @@
     version: indigo-devel
 - git:
     local-name: jsk-ros-pkg/jsk_recognition
-    uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
+    uri: git@github.com:wkentaro/jsk_recognition.git
+    version: develop
+- git:
+    local-name: jsk-ros-pkg/jsk_visualization
+    uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
     version: master
 - git:
     local-name: start-jsk/jsk_apc
