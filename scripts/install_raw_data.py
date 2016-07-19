@@ -12,9 +12,9 @@ def main():
 
     download_data(
         pkg_name=PKG,
-        path='raw_data/hrp2_rosbag_apc_look_around_2016-07-19-16-46-05.bag',
-        url='https://drive.google.com/uc?id=0B5qanGnXorOuME83UHQ4Sm5YQTQ',
-        md5='',
+        path='raw_data/2016-07-19-16-46-05-hrp2_rosbag_apc_look_around.bag',
+        url='https://drive.google.com/uc?id=0B9P1L--7Wd2vYmdYdjFmSHV4dkU',
+        md5='d344dc71d4f545012fa7cdfa9dea4b15',
     )
 
 
