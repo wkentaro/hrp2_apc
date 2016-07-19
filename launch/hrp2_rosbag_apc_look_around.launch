@@ -68,6 +68,11 @@
     </rosparam>
   </node>
 
+  <!-- Visualization -->
+  <node name="colorize_labels"
+        pkg="jsk_perception" type="colorize_labels">
+    <remap from="~input" to="fcn_object_segmentation/output" />
+  </node>
   <node name="label_image_decomposer"
         pkg="jsk_perception" type="label_image_decomposer.py">
     <remap from="~input" to="/camera_remote/rgb/image_rect_color" />
@@ -75,6 +80,7 @@
     <rosparam>
       queue_size: 100
     </rosparam>
+    <remap from="~label_names" to="fcn_object_segmentation/target_names" />
   </node>
 
   <node name="rviz"
