@@ -1,4 +1,12 @@
 - git:
+    local-name: jsk-ros-pkg/jsk_recognition
+    uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
+    version: master
+- git:
+    local-name: start-jsk/rtmros_hrp2
+    uri: https://github.com/start-jsk/rtmros_hrp2.git
+    version: master
+- git:
     local-name: start-jsk/rtmros_tutorials
     uri: https://github.com/start-jsk/rtmros_tutorials.git
     version: master
