@@ -31,7 +31,7 @@
   <group if="$(arg rviz)">
     <node name="rviz"
           pkg="rviz" type="rviz"
-          args="-d $(find hrp2_apc)/rvizconfig/hrp2_rosbag_apc_look_around.rviz">
+          args="-d $(find hrp2_apc)/rvizconfig/hrp2_apc.rviz">
     </node>
   </group>
 
