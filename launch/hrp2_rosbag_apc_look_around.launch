@@ -1,5 +1,7 @@
 <launch>
 
+  <arg name="rviz" default="true" />
+
   <param name="/use_sim_time" value="true" />
 
   <include file="$(find jsk_data)/launch/hrp2_play.launch">
@@ -45,9 +47,11 @@
     <remap from="~label_names" to="label_names" />
   </node>
 
-  <node name="rviz"
-        pkg="rviz" type="rviz"
-        args="-d $(find hrp2_apc)/rvizconfig/hrp2_rosbag_apc_look_around.rviz">
-  </node>
+  <group if="$(arg rviz)">
+    <node name="rviz"
+          pkg="rviz" type="rviz"
+          args="-d $(find hrp2_apc)/rvizconfig/hrp2_rosbag_apc_look_around.rviz">
+    </node>
+  </group>
 
 </launch>
