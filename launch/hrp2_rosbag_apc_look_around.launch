@@ -15,7 +15,7 @@
       <arg name="INPUT_IMAGE" value="/camera_remote/rgb/image_rect_color" />
       <arg name="INPUT_CLOUD" value="/camera_remote/depth_registered/points" />
       <arg name="FIXED_FRAME" value="BODY" />
-      <arg name="INITIAL_TARGET_ID" value="0" />
+      <arg name="INITIAL_TARGET_ID" value="2" />
     </include>
   </group>
 

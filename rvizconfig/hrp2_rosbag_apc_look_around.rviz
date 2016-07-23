@@ -5,7 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Status1
       Splitter Ratio: 0.446809
     Tree Height: 922
   - Class: rviz/Selection
@@ -70,9 +69,9 @@ Visualization Manager:
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
-      Size (Pixels): 3
+      Size (Pixels): 1
       Size (m): 0.01
-      Style: Flat Squares
+      Style: Points
       Topic: /camera_remote/depth_registered/points
       Unreliable: false
       Use Fixed Frame: true
@@ -335,6 +334,77 @@ Visualization Manager:
       left: 885
       top: 670
       width: 400
+    - Class: jsk_rviz_plugin/BoundingBoxArray
+      Enabled: true
+      Name: BoundingBoxArray
+      Topic: /fcn/cluster_indices_decomposer_target/boxes
+      Unreliable: false
+      Value: true
+      alpha: 0.8
+      color: 25; 255; 0
+      coloring: Auto
+      line width: 0.005
+      only edge: false
+      show coords: false
+    - Class: jsk_rviz_plugin/OverlayImage
+      Enabled: true
+      Name: TargetMask
+      Topic: /fcn/label_to_mask/output
+      Value: true
+      alpha: 0.8
+      height: 128
+      keep aspect ratio: true
+      left: 6
+      top: 682
+      width: 400
+    - Background Alpha: 0.8
+      Background Color: 0; 0; 0
+      Class: jsk_rviz_plugin/OverlayText
+      Enabled: true
+      Foreground Alpha: 0.8
+      Foreground Color: 25; 255; 240
+      Name: OverlayText
+      Overtake Color Properties: true
+      Overtake Position Properties: true
+      Topic: /fcn/label_names_overlay/output
+      Value: true
+      font: DejaVu Sans Mono
+      height: 680
+      left: 0
+      line width: 2
+      text size: 10
+      top: 0
+      width: 330
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: HeadCamera
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 10
+      Size (m): 0.01
+      Style: Points
+      Topic: /fcn/cluster_indices_decomposer_target/debug_output
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -360,22 +430,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.34559
+      Distance: 3.57224
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.21975
-        Y: -0.642005
-        Z: 0.454831
+        X: 0.348479
+        Y: -0.541629
+        Z: 0.50976
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.635399
+      Pitch: 0.435399
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.6854
+      Yaw: 2.0054
     Saved: ~
 Window Geometry:
   Displays:

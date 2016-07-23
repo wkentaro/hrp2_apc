@@ -62,8 +62,8 @@
     <remap from="~input" to="resize_points_publisher/output" />  <!-- depth timestamp -->
     <rosparam>
       min_size: 10
-      max_size: 25000
-      tolerance: 0.02
+      max_size: 10000
+      tolerance: 0.05
     </rosparam>
   </node>
   <node name="cluster_indices_decomposer_target"
@@ -81,6 +81,12 @@
   </node>
 
   <!-- Visualization -->
+  <node name="label_names_overlay"
+        pkg="hrp2_apc" type="label_names_overlay.py"
+        respawn="true">
+    <remap from="~label_names" to="label_names" />
+    <remap from="~target_label_value" to="label_to_mask/label_value" />
+  </node>
   <node name="colorize_labels"
         pkg="nodelet" type="nodelet"
         args="load jsk_perception/ColorizeLabels $(arg MANAGER)">
