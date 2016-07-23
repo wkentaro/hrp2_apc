@@ -10,6 +10,12 @@
     <arg name="launch_multisense" value="false" />
   </include>
 
+  <group ns="fcn">
+    <include file="$(find hrp2_apc)/launch/fcn_object_segmentation.launch">
+      <arg name="INPUT_IMAGE" value="/camera_remote/rgb/image_rect_color" />
+    </include>
+  </group>
+
   <node name="octomap_server_node"
         pkg="octomap_server" type="octomap_server_node">
     <remap from="cloud_in" to="/camera_remote/depth_registered/points" />
@@ -17,34 +23,6 @@
       frame_id: ground
       base_frame_id: odom
     </rosparam>
-  </node>
-
-  <rosparam command="load" file="$(find hrp2_apc)/config/label_names.yaml" />
-
-  <node name="fcn_object_segmentation"
-        pkg="jsk_perception" type="fcn_object_segmentation.py">
-    <remap from="~input" to="/camera_remote/rgb/image_rect_color" />
-    <rosparam subst_value="true">
-      gpu: 0
-      model_name: fcn32s
-      model_h5: $(find jsk_apc2016_common)/trained_data/fcn32s_6000.chainermodel
-    </rosparam>
-    <remap from="~target_names" to="label_names" />
-  </node>
-
-  <!-- Visualization -->
-  <node name="colorize_labels"
-        pkg="jsk_perception" type="colorize_labels">
-    <remap from="~input" to="fcn_object_segmentation/output" />
-  </node>
-  <node name="label_image_decomposer"
-        pkg="jsk_perception" type="label_image_decomposer.py">
-    <remap from="~input" to="/camera_remote/rgb/image_rect_color" />
-    <remap from="~input/label" to="fcn_object_segmentation/output" />
-    <rosparam>
-      queue_size: 100
-    </rosparam>
-    <remap from="~label_names" to="label_names" />
   </node>
 
   <group if="$(arg rviz)">

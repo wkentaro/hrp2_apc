@@ -316,7 +316,7 @@ Visualization Manager:
     - Class: jsk_rviz_plugin/OverlayImage
       Enabled: true
       Name: Segmentation
-      Topic: /colorize_labels/output
+      Topic: /fcn/colorize_labels/output
       Value: true
       alpha: 0.8
       height: 128
@@ -327,7 +327,7 @@ Visualization Manager:
     - Class: jsk_rviz_plugin/OverlayImage
       Enabled: true
       Name: Segmentation+Names
-      Topic: /label_image_decomposer/output/label_viz
+      Topic: /fcn/label_image_decomposer/output/label_viz
       Value: true
       alpha: 0.8
       height: 128
