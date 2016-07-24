@@ -4,29 +4,38 @@
 
   <param name="/use_sim_time" value="true" />
 
+  <arg name="MANAGER" value="hrp2_apc_nodelet_manager" />
+  <node name="$(arg MANAGER)"
+        pkg="nodelet" type="nodelet" args="manager" />
+
   <include file="$(find jsk_data)/launch/hrp2_play.launch">
     <arg name="bagfile_names" value="$(find hrp2_apc)/raw_data/2016-07-19-16-46-05-hrp2_rosbag_apc_look_around.bag" />
     <arg name="launch_openni" value="true" />
     <arg name="launch_multisense" value="false" />
   </include>
 
-  <group ns="fcn">
-    <include file="$(find hrp2_apc)/launch/fcn_object_segmentation.launch">
-      <arg name="INPUT_IMAGE" value="/camera_remote/rgb/image_rect_color" />
-      <arg name="INPUT_CLOUD" value="/camera_remote/depth_registered/points" />
-      <arg name="FIXED_FRAME" value="BODY" />
-      <arg name="INITIAL_TARGET_ID" value="2" />
-    </include>
-  </group>
+  <group ns="hrp2_apc">
 
-  <node name="octomap_server_node"
-        pkg="octomap_server" type="octomap_server_node">
-    <remap from="cloud_in" to="/camera_remote/depth_registered/points" />
-    <rosparam>
-      frame_id: ground
-      base_frame_id: odom
-    </rosparam>
-  </node>
+    <group ns="fcn">
+      <include file="$(find hrp2_apc)/launch/fcn_object_segmentation.launch">
+        <arg name="INPUT_IMAGE" value="/camera_remote/rgb/image_rect_color" />
+        <arg name="INPUT_CLOUD" value="/camera_remote/depth_registered/points" />
+        <arg name="FIXED_FRAME" value="BODY" />
+        <arg name="MANAGER" value="$(arg MANAGER)" />
+        <arg name="INITIAL_TARGET_ID" value="2" />
+      </include>
+    </group>
+
+    <node name="octomap_server_node"
+          pkg="octomap_server" type="octomap_server_node">
+      <remap from="cloud_in" to="/camera_remote/depth_registered/points" />
+      <rosparam>
+        frame_id: ground
+        base_frame_id: odom
+      </rosparam>
+    </node>
+
+  </group>
 
   <group if="$(arg rviz)">
     <node name="rviz"
