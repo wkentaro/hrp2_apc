@@ -1,0 +1,24 @@
+<launch>
+  <arg name="checkerboard_display" default="1" />
+
+  <arg name="camera_info" default="/camera_remote/rgb/camera_info" />
+  <arg name="image" default="/camera_remote/rgb/image_rect_color" />
+  <arg name="frame_id" default="camera_rgb_optical_frame" />
+
+  <group ns="/checkerboard_detector0">
+    <param name="single" value="1" />
+    <param name="display" value="$(arg checkerboard_display)" />
+    <param name="rect0_size_x" value="0.030" />
+    <param name="rect0_size_y" value="0.030" />
+    <param name="grid0_size_x" value="6" />
+    <param name="grid0_size_y" value="5" />
+    <param name="type0" value="test_object0" />
+    <param name="frame_id" value="$(arg frame_id)" />
+    <node name="checkerboard_detector0" pkg="checkerboard_detector"
+          type="checkerboard_detector" output="screen">
+      <remap from="camera_info" to="$(arg camera_info)"/>
+      <remap from="image" to="$(arg image)"/>
+    </node>
+  </group>
+
+</launch>
