@@ -11,6 +11,11 @@
     <rosparam command="load" file="$(find hrp2_apc)/config/kiva_pod_interactive_marker.yaml" />
   </node>
 
+  <node name="set_camera_depth_resolution"
+        pkg="dynamic_reconfigure" type="dynparam"
+        args="set /camera/driver depth_mode 5">
+  </node>
+
   <group ns="hrp2_apc">
 
     <arg name="MANAGER" value="hrp2_apc_nodelet_manager" />
@@ -32,9 +37,6 @@
           pkg="nodelet" type="nodelet"
           args="load jsk_pcl_utils/BoundingBoxArrayToBoundingBox $(arg MANAGER)">
       <remap from="~input" to="publish_bin_bbox/output" />
-      <rosparam>
-        index: 2
-      </rosparam>
     </node>
     <node name="attention_clipper_target_bin"
           pkg="nodelet" type="nodelet"
@@ -80,10 +82,9 @@
     <group ns="fcn">
       <include file="$(find hrp2_apc)/launch/fcn_object_segmentation.launch">
         <arg name="INPUT_IMAGE" value="/camera_remote/rgb/image_rect_color" />
-        <arg name="INPUT_CLOUD" value="/camera_remote/depth_registered/points" />
+        <arg name="INPUT_CLOUD" value="extract_indices_target_bin/output" />
         <arg name="FIXED_FRAME" value="BODY" />
         <arg name="MANAGER" value="/hrp2_apc/$(arg MANAGER)" />
-        <arg name="INITIAL_TARGET_ID" value="2" />
       </include>
     </group>
 

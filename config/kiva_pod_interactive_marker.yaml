@@ -1,8 +1,8 @@
 frame_id: BODY
-initial_orientation: [0, 0, 0, 1]
-initial_x: 0
-initial_y: 0
-initial_z: 0
+# initial_orientation: [0, 0, 0, 1]
+# initial_x: 0
+# initial_y: 0
+# initial_z: 0
 object_a: 0.2
 object_b: 0.2
 object_g: 0.0
