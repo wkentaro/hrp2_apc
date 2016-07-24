@@ -151,6 +151,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        LARM_cb_jig:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         LLEG_LINK0:
           Alpha: 1
           Show Axes: false
@@ -182,6 +186,36 @@ Visualization Manager:
           Show Trail: false
           Value: true
         LLEG_LINK6:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        L_INDEXMP_P_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        L_INDEXMP_R_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        L_INDEXPIP_R_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        L_MIDDLEPIP_R_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        L_THUMBCM_P_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        L_THUMBCM_Y_LINK:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -227,6 +261,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        RARM_cb_jig:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         RLEG_LINK0:
           Alpha: 1
           Show Axes: false
@@ -262,6 +300,100 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        R_INDEXMP_P_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        R_INDEXMP_R_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        R_INDEXPIP_R_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        R_MIDDLEPIP_R_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        R_THUMBCM_P_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        R_THUMBCM_Y_LINK:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_rgb_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_rgb_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        fisheye:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        head_end_coords:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        larm_end_coords:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        lfsensor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        lhsensor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        lleg_end_coords:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        rarm_end_coords:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        rfsensor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        rhsensor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        rleg_end_coords:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        torso_end_coords:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
@@ -315,7 +447,7 @@ Visualization Manager:
     - Class: jsk_rviz_plugin/OverlayImage
       Enabled: true
       Name: Segmentation
-      Topic: /fcn/colorize_labels/output
+      Topic: /hrp2_apc/fcn/colorize_labels/output
       Value: true
       alpha: 0.8
       height: 128
@@ -326,7 +458,7 @@ Visualization Manager:
     - Class: jsk_rviz_plugin/OverlayImage
       Enabled: true
       Name: Segmentation+Names
-      Topic: /fcn/label_image_decomposer/output/label_viz
+      Topic: /hrp2_apc/fcn/label_image_decomposer/output/label_viz
       Value: true
       alpha: 0.8
       height: 128
@@ -336,8 +468,8 @@ Visualization Manager:
       width: 400
     - Class: jsk_rviz_plugin/BoundingBoxArray
       Enabled: true
-      Name: BoundingBoxArray
-      Topic: /fcn/cluster_indices_decomposer_target/boxes
+      Name: TargetBBox
+      Topic: /hrp2_apc/fcn/cluster_indices_decomposer_target/boxes
       Unreliable: false
       Value: true
       alpha: 0.8
@@ -349,7 +481,7 @@ Visualization Manager:
     - Class: jsk_rviz_plugin/OverlayImage
       Enabled: true
       Name: TargetMask
-      Topic: /fcn/label_to_mask/output
+      Topic: /hrp2_apc/fcn/label_to_mask/output
       Value: true
       alpha: 0.8
       height: 128
@@ -366,7 +498,7 @@ Visualization Manager:
       Name: OverlayText
       Overtake Color Properties: true
       Overtake Position Properties: true
-      Topic: /fcn/label_names_overlay/output
+      Topic: /hrp2_apc/fcn/label_names_overlay/output
       Value: true
       font: DejaVu Sans Mono
       height: 680
@@ -393,18 +525,96 @@ Visualization Manager:
       Max Intensity: 4096
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: HeadCamera
+      Name: TargetCloud
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 10
       Size (m): 0.01
       Style: Points
-      Topic: /fcn/cluster_indices_decomposer_target/debug_output
+      Topic: /hrp2_apc/fcn/cluster_indices_decomposer_target/debug_output
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Alpha: 0.3
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        kiva_pod_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kiva_pod_y_part0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kiva_pod_y_part1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kiva_pod_y_part2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kiva_pod_y_part3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kiva_pod_z_part0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kiva_pod_z_part1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kiva_pod_z_part2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kiva_pod_z_part3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kiva_pod_z_part4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: KivaPodModel
+      Robot Description: kiva_pod_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: jsk_rviz_plugin/BoundingBoxArray
+      Enabled: true
+      Name: BinBBox
+      Topic: /hrp2_apc/publish_bin_bbox/boxes
+      Unreliable: false
+      Value: true
+      alpha: 0.1
+      color: 25; 255; 0
+      coloring: Auto
+      line width: 0.005
+      only edge: false
+      show coords: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -430,22 +640,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.57224
+      Distance: 3.81424
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.348479
-        Y: -0.541629
-        Z: 0.50976
+        X: 0.945856
+        Y: -0.360817
+        Z: 0.667123
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.435399
+      Pitch: 0.520399
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.0054
+      Yaw: 2.1754
     Saved: ~
 Window Geometry:
   Displays:
