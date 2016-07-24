@@ -15,6 +15,10 @@
     uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
     version: master
 - git:
+    local-name: ros-perception/vision_opencv
+    uri: git@github.com:wkentaro/vision_opencv.git
+    version: develop
+- git:
     local-name: start-jsk/jsk_apc
     uri: https://github.com/start-jsk/jsk_apc.git
     version: master
