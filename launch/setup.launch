@@ -1,5 +1,8 @@
 <launch>
 
+  <arg name="INPUT_CLOUD" value="/camera_remote/depth_registered/points" />
+  <arg name="INPUT_DEPTH_INFO" value="/camera_remote/depth/camera_info" />
+
   <!-- setup kiva_pod -->
 
   <include file="$(find jsk_2015_05_baxter_apc)/launch/include/kiva_pod_state.launch" />
@@ -10,20 +13,76 @@
 
   <group ns="hrp2_apc">
 
+    <arg name="MANAGER" value="hrp2_apc_nodelet_manager" />
+    <node name="$(arg MANAGER)"
+          pkg="nodelet" type="nodelet" args="manager" />
+
+    <!-- Clip target bin cloud -->
     <node name="publish_bin_bbox"
           pkg="jsk_apc2016_common" type="publish_bin_bbox.py"
           output="screen">
       <rosparam command="load" file="$(find jsk_apc2016_common)/config/bin_upper_shelf.yaml" ns="upper_shelf"/>
       <rosparam command="load" file="$(find jsk_apc2016_common)/config/bin_lower_shelf.yaml" ns="lower_shelf"/>
+      <remap from="~boxes" to="~output" />
+      <rosparam>
+        duration: 0.02
+      </rosparam>
+    </node>
+    <node name="bbox_array_to_bbox"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl_utils/BoundingBoxArrayToBoundingBox $(arg MANAGER)">
+      <remap from="~input" to="publish_bin_bbox/output" />
+      <rosparam>
+        index: 2
+      </rosparam>
+    </node>
+    <node name="attention_clipper_target_bin"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl/AttentionClipper $(arg MANAGER)">
+      <remap from="~input" to="$(arg INPUT_DEPTH_INFO)" />
+      <remap from="~input/points" to="$(arg INPUT_CLOUD)" />
+      <remap from="~input/box" to="bbox_array_to_bbox/output" />
+      <rosparam subst_value="true">
+        use_multiple_attention: false
+      </rosparam>
+    </node>
+    <node name="extract_indices_target_bin"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl/ExtractIndices $(arg MANAGER)">
+      <remap from="~input" to="$(arg INPUT_CLOUD)" />
+      <remap from="~indices" to="attention_clipper_target_bin/output/point_indices" />
+      <rosparam>
+        keep_organized: true
+      </rosparam>
+    </node>
+    <!-- Visualization -->
+    <node name="target_bin_overlay"
+          pkg="hrp2_apc" type="target_bin_overlay.py">
+      <rosparam>
+        bin_names:
+         - bin_A
+         - bin_B
+         - bin_C
+         - bin_D
+         - bin_E
+         - bin_F
+         - bin_G
+         - bin_H
+         - bin_I
+         - bin_J
+         - bin_K
+         - bin_L
+      </rosparam>
+      <remap from="~target_bin_index" to="bbox_array_to_bbox/index" />
     </node>
 
     <!-- FCN segmentation -->
-
     <group ns="fcn">
       <include file="$(find hrp2_apc)/launch/fcn_object_segmentation.launch">
         <arg name="INPUT_IMAGE" value="/camera_remote/rgb/image_rect_color" />
         <arg name="INPUT_CLOUD" value="/camera_remote/depth_registered/points" />
         <arg name="FIXED_FRAME" value="BODY" />
+        <arg name="MANAGER" value="/hrp2_apc/$(arg MANAGER)" />
         <arg name="INITIAL_TARGET_ID" value="2" />
       </include>
     </group>

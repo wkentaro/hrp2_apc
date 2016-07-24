@@ -5,9 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /KivaPodModel1/Status1
         - /TF1/Frames1
-        - /Pose1
       Splitter Ratio: 0.446809
     Tree Height: 922
   - Class: rviz/Selection
@@ -471,7 +469,7 @@ Visualization Manager:
       width: 400
     - Class: jsk_rviz_plugin/BoundingBoxArray
       Enabled: true
-      Name: TargetBBox
+      Name: TargetObject
       Topic: /hrp2_apc/fcn/cluster_indices_decomposer_target/boxes
       Unreliable: false
       Value: true
@@ -498,7 +496,7 @@ Visualization Manager:
       Enabled: true
       Foreground Alpha: 0.8
       Foreground Color: 25; 255; 240
-      Name: OverlayText
+      Name: TargetObject
       Overtake Color Properties: true
       Overtake Position Properties: true
       Topic: /hrp2_apc/fcn/label_names_overlay/output
@@ -509,7 +507,25 @@ Visualization Manager:
       line width: 2
       text size: 10
       top: 0
-      width: 330
+      width: 310
+    - Background Alpha: 0.8
+      Background Color: 0; 0; 0
+      Class: jsk_rviz_plugin/OverlayText
+      Enabled: true
+      Foreground Alpha: 0.8
+      Foreground Color: 25; 255; 240
+      Name: TargetBin
+      Overtake Color Properties: true
+      Overtake Position Properties: true
+      Topic: /hrp2_apc/target_bin_overlay/output
+      Value: true
+      font: DejaVu Sans Mono
+      height: 210
+      left: 310
+      line width: 2
+      text size: 10
+      top: 0
+      width: 80
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -608,8 +624,8 @@ Visualization Manager:
       Visual Enabled: true
     - Class: jsk_rviz_plugin/BoundingBoxArray
       Enabled: true
-      Name: BinBBox
-      Topic: /hrp2_apc/publish_bin_bbox/boxes
+      Name: BinBoxArray
+      Topic: /hrp2_apc/publish_bin_bbox/output
       Unreliable: false
       Value: true
       alpha: 0.1
@@ -632,21 +648,6 @@ Visualization Manager:
         {}
       Update Interval: 0
       Value: false
-    - Alpha: 1
-      Axes Length: 0.1
-      Axes Radius: 0.01
-      Class: rviz/Pose
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.3
-      Head Radius: 0.1
-      Name: Pose
-      Shaft Length: 1
-      Shaft Radius: 0.05
-      Shape: Axes
-      Topic: /interactive_adjust_kiva_pod/move_marker
-      Unreliable: false
-      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -672,7 +673,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 5.17009
+      Distance: 6.8935
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -684,10 +685,10 @@ Visualization Manager:
         Z: 0.518946
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.590399
+      Pitch: 0.205399
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.29677
+      Yaw: 3.43177
     Saved: ~
 Window Geometry:
   Displays:
