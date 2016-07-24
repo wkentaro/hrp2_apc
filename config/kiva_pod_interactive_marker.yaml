@@ -12,4 +12,5 @@ object_x: 0.865
 object_y: 0.865
 object_z: 1.0
 publish_tf: true
+tf_duration: 0.05
 tf_frame: kiva_pod_base
