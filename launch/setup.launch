@@ -82,7 +82,7 @@
     <group ns="fcn">
       <include file="$(find hrp2_apc)/launch/fcn_object_segmentation.launch">
         <arg name="INPUT_IMAGE" value="/camera_remote/rgb/image_rect_color" />
-        <arg name="INPUT_CLOUD" value="extract_indices_target_bin/output" />
+        <arg name="INPUT_CLOUD" value="/hrp2_apc/extract_indices_target_bin/output" />
         <arg name="FIXED_FRAME" value="BODY" />
         <arg name="MANAGER" value="/hrp2_apc/$(arg MANAGER)" />
       </include>
