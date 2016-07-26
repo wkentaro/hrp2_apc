@@ -179,6 +179,10 @@
     (return-from demo-hrp2-apc nil)
     )
 
+  ;; for transit from cart demo
+  (send *ri* :remove-joint-group :head)
+  (send *ri* :add-joint-group :head)
+
   (let* (ik-offset
          walk-offset
          (walk-dist 250)
