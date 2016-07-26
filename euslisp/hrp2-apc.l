@@ -198,7 +198,7 @@
     (set-target-bin-obj :bin-id bin-id :obj obj-name)
 
     (print-with-wait "walk-to-bin for look" "棚の見える位置へ移動します．")
-    (walk-to-bin :bin-id bin-id :arm :rarm :offset (float-vector (- walk-dist) -300 0))
+    (walk-to-bin :bin-id bin-id :arm :rarm :offset (float-vector (- walk-dist) -300 0) :neck-p-angle 20)
 
     (print-with-wait "look-around-bin" "棚の中を見ます．")
     (look-around-bin :bin-id bin-id)
@@ -253,10 +253,16 @@
     (walk-from-bin-to-thoth :arm arm :obj-place obj-place)
 
     (print-with-wait "release-object-to-thoth" "台車に置きます．")
+    (release-object-to-thoth :arm arm :offset (float-vector 0 0 200))
+    (model2real)
+
     (release-object-to-thoth :arm arm)
     (model2real)
 
     (open-hand)
+
+    (release-object-to-thoth :arm arm :offset (float-vector 0 0 200))
+    (model2real)
 
     (send *robot* :reset-manip-pose)
     (model2real)
@@ -467,10 +473,14 @@
 (defun walk-to-bin
   (&key (bin-id :bin-l)
         (arm :arm)
-        (offset (float-vector -250 0 0)))
+        (offset (float-vector -250 0 0))
+        (neck-p-angle nil)
+        )
   ;; recog
   (send *robot* :reset-manip-pose)
   (send *robot* :head :neck-y :joint-angle 30)
+  (when neck-p-angle
+    (send *robot* :head :neck-p :joint-angle neck-p-angle))
   (model2real :tm 3000)
   (place-robot-relative-to-kiva-pod)
 
@@ -676,15 +686,15 @@
   (send *ri* :go-pos -0.3 0 -90)
   )
 
-
 (defun release-object-to-thoth
-  (&key (arm :rarm))
+  (&key (arm :rarm)
+        (offset (float-vector 0 0 0)))
   (let* ((av-orig (copy-seq (send *robot* :angle-vector)))
          (foot-midcoords-orig (send (send *robot* :foot-midcoords) :copy-worldcoords))
          ik-ret
          )
     (let* ((tc
-            (append (list (send (send (send (send *robot* :foot-midcoords) :copy-worldcoords) :translate (float-vector 500 0 400) :local) :rotate (if (equal arm :larm) pi/2 -pi/2) :x :local))
+            (append (list (send (send (send (send (send *robot* :foot-midcoords) :copy-worldcoords) :translate (float-vector 500 0 400) :local) :rotate (if (equal arm :larm) pi/2 -pi/2) :x :local) :translate offset :world))
                     (send-all (send *robot* :legs :end-coords) :copy-worldcoords)))
            (mt
             (append (list (send *robot* arm :end-coords))
