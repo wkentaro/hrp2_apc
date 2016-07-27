@@ -26,8 +26,8 @@
     <node name="publish_bin_bbox"
           pkg="jsk_apc2016_common" type="publish_bin_bbox.py"
           output="screen">
-      <rosparam command="load" file="$(find jsk_apc2016_common)/config/bin_upper_shelf.yaml" ns="upper_shelf"/>
-      <rosparam command="load" file="$(find jsk_apc2016_common)/config/bin_lower_shelf.yaml" ns="lower_shelf"/>
+      <rosparam command="load" file="$(find hrp2_apc)/config/bin_upper_shelf.yaml" ns="upper_shelf"/>
+      <rosparam command="load" file="$(find hrp2_apc)/config/bin_lower_shelf.yaml" ns="lower_shelf"/>
       <remap from="~boxes" to="~output" />
       <rosparam>
         duration: 0.02

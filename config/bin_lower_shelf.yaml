@@ -1,0 +1,7 @@
+initial_pos_list: [[-0.22, 0.280, -0.116], [-0.22, 0, -0.116], [-0.22, -0.280, -0.116], [-0.22, 0.280, -0.361], [-0.22, 0, -0.361], [-0.22, -0.280, -0.361]]
+initial_rot_list: [[0,0,0], [0,0,0], [0,0,0], [0,0,0], [0,0,0], [0,0,0]]
+initial_quat_list: [[0,0,0,1], [0,0,0,1], [0,0,0,1], [0,0,0,1], [0,0,0,1], [0,0,0,1]]
+dimensions: [[0.40, 0.268, 0.212],[0.40, 0.326, 0.212],[0.40, 0.268, 0.212], [0.40, 0.268, 0.238],[0.40, 0.326, 0.238],[0.40, 0.268, 0.238]]
+frame_id_list: [kiva_pod_base, kiva_pod_base, kiva_pod_base, kiva_pod_base, kiva_pod_base, kiva_pod_base]
+prefixes: [bin_g, bin_h, bin_i, bin_j, bin_k, bin_l]
+camera_directions: [x, x, x, x, x, x]
