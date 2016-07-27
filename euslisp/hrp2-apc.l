@@ -252,6 +252,9 @@
     (print-with-wait "footstep-for-reach backward" "後ろに歩きます．")
     (footstep-for-reach :dir :backward :dist (- (+ walk-dist walk-dist-offset)))
 
+    (solve-fullbody-ik :arm arm :bin-id bin-id :obj-place obj-place :offset (v+ ik-offset (float-vector -100 0 0)))
+    (model2real)
+
     (print-with-wait "walk-from-bin-to-thoth" "台車へ移動します．")
     (walk-from-bin-to-thoth :arm arm :obj-place obj-place)
 
