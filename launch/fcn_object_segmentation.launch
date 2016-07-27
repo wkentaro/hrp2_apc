@@ -41,6 +41,7 @@
       frame_id: odom
       resolution: 0.01
       latch: false
+      publish_periodically: true
     </rosparam>
   </node>
   <node name="centroid_publisher"
