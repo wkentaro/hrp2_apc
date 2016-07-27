@@ -25,9 +25,17 @@
     <remap from="~input" to="fcn_object_segmentation/output/proba_image" />  <!-- rgb timestamp -->
     <param name="~channel" value="2" if="$(arg SIM)" />
   </node>
+  <node name="passthrough_octomap_cloud_in"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_topic_tools/Passthrough $(arg MANAGER)">
+    <remap from="~input" to="$(arg INPUT_CLOUD)" />
+    <rosparam>
+      default_duration: 86400
+    </rosparam>
+  </node>
   <node name="octomap_server_object_probability"
         pkg="octomap_server" type="octomap_server_object_probability">
-    <remap from="cloud_in" to="$(arg INPUT_CLOUD)" />  <!-- depth timestamp -->
+    <remap from="cloud_in" to="passthrough_octomap_cloud_in/output" />  <!-- depth timestamp -->
     <remap from="proba_image_in" to="extract_image_channel/output" />  <!-- rgb timestamp -->
     <rosparam>
       frame_id: odom
@@ -37,7 +45,7 @@
   <node name="centroid_publisher"
         pkg="nodelet" type="nodelet"
         args="load jsk_pcl_utils/CentroidPublisher $(arg MANAGER)">
-    <remap from="~input" to="octomap_server_object_probability/octomap_point_cloud_centers" />
+    <remap from="~input" to="octomap_point_cloud_centers" />
     <rosparam>
       publish_tf: false
     </rosparam>
@@ -105,6 +113,11 @@
         respawn="true">
     <remap from="~label_names" to="label_names" />
     <remap from="~target_label_value" to="label_to_mask/label_value" />
+  </node>
+  <node name="colorize_float_image"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_perception/ColorizeFloatImage $(arg MANAGER)">
+    <remap from="~input" to="extract_image_channel/output" />
   </node>
   <node name="colorize_labels"
         pkg="nodelet" type="nodelet"
