@@ -33,6 +33,7 @@
      <remap from="~input/image" to="extract_image_channel/output" />
      <remap from="~output/image" to="extract_image_channel/output/half" />
      <rosparam>
+       use_camera_info: false
        resize_scale_x: 0.5
        resize_scale_y: 0.5
        interpolation: NEAREST
