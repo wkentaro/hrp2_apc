@@ -1,5 +1,6 @@
 <launch>
 
+  <arg name="INPUT_IMAGE" value="/camera_remote/rgb/image_rect_color" />
   <arg name="INPUT_CLOUD" value="/camera_remote/depth_registered/points" />
   <arg name="INPUT_DEPTH_INFO" value="/camera_remote/depth/camera_info" />
 
@@ -13,7 +14,7 @@
 
   <node name="set_camera_depth_resolution"
         pkg="dynamic_reconfigure" type="dynparam"
-        args="set /camera/driver depth_mode 5">
+        args="set /camera/driver depth_mode 8">  <!-- QVGA -->
   </node>
 
   <group ns="hrp2_apc">
@@ -81,10 +82,11 @@
     <!-- FCN segmentation -->
     <group ns="fcn">
       <include file="$(find hrp2_apc)/launch/fcn_object_segmentation.launch">
-        <arg name="INPUT_IMAGE" value="/camera_remote/rgb/image_rect_color" />
+        <arg name="INPUT_IMAGE" value="$(arg INPUT_IMAGE)" />
         <arg name="INPUT_CLOUD" value="/hrp2_apc/extract_indices_target_bin/output" />
         <arg name="FIXED_FRAME" value="BODY" />
         <arg name="MANAGER" value="/hrp2_apc/$(arg MANAGER)" />
+        <arg name="QVGA" value="true" />
       </include>
     </group>
 

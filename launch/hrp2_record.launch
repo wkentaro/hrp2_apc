@@ -6,7 +6,7 @@
     <arg name="save_dir" value="$(optenv HOME)/.ros/hrp2_apc" />
     <arg name="save_openni" value="true" />
     <arg name="save_multisense" value="false" />
-    <arg name="other_topics" value="/hrp2_apc/publish_bin_bbox/output /hrp2_apc/bbox_array_to_bbox/output /hrp2_apc/extract_indices_target_bin/output /hrp2_apc/target_bin_overlay/output $(arg NS)/fcn_object_segmentation/output $(arg NS)/fcn_object_segmentation/output/proba_image $(arg NS)/extract_image_channel/output $(arg NS)/octomap_full $(arg NS)/octomap_point_cloud_centers $(arg NS)/centroid_publisher/output $(arg NS)/label_to_mask/output $(arg NS)/resize_points_publisher/output $(arg NS)/euclidean_clustering/output $(arg NS)/cluster_indices_decomposer_target/boxes" />
+    <arg name="other_topics" value="/hrp2_apc/publish_bin_bbox/output /hrp2_apc/bbox_array_to_bbox/output /hrp2_apc/extract_indices_target_bin/output /hrp2_apc/target_bin_overlay/output $(arg NS)/fcn_object_segmentation/output $(arg NS)/fcn_object_segmentation/output/proba_image $(arg NS)/extract_image_channel/output $(arg NS)/extract_image_channel/output/half $(arg NS)/octomap_full $(arg NS)/octomap_point_cloud_centers $(arg NS)/centroid_publisher/output $(arg NS)/label_to_mask/output $(arg NS)/resize_points_publisher/output $(arg NS)/euclidean_clustering/output $(arg NS)/cluster_indices_decomposer_target/boxes" />
   </include>
 
 </launch>

@@ -4,6 +4,7 @@
   <arg name="INPUT_CLOUD" />
   <arg name="FIXED_FRAME" />
   <arg name="MANAGER" />
+  <arg name="QVGA" default="false" />
   <arg name="SIM" default="false" />
 
   <rosparam command="load" file="$(find hrp2_apc)/config/label_names.yaml" />
@@ -25,6 +26,19 @@
     <remap from="~input" to="fcn_object_segmentation/output/proba_image" />  <!-- rgb timestamp -->
     <param name="~channel" value="2" if="$(arg SIM)" />
   </node>
+  <group if="$(arg QVGA)">
+    <node name="image_resizer"
+          pkg="nodelet" type="nodelet"
+          args="load resized_image_transport/ImageResizer $(arg MANAGER)">
+     <remap from="~input/image" to="extract_image_channel/output" />
+     <remap from="~output/image" to="extract_image_channel/output/half" />
+     <rosparam>
+       resize_scale_x: 0.5
+       resize_scale_y: 0.5
+       interpolation: NEAREST
+     </rosparam>
+    </node>
+  </group>
   <node name="passthrough_octomap_cloud_in"
         pkg="nodelet" type="nodelet"
         args="load jsk_topic_tools/Passthrough $(arg MANAGER)">
@@ -36,7 +50,7 @@
   <node name="octomap_server_object_probability"
         pkg="octomap_server" type="octomap_server_object_probability">
     <remap from="cloud_in" to="passthrough_octomap_cloud_in/output" />  <!-- depth timestamp -->
-    <remap from="proba_image_in" to="extract_image_channel/output" />  <!-- rgb timestamp -->
+    <remap from="proba_image_in" to="extract_image_channel/output/half" />  <!-- rgb timestamp -->
     <rosparam>
       frame_id: odom
       resolution: 0.01
