@@ -184,7 +184,6 @@
   (send *ri* :add-joint-group :head)
 
   (let* (ik-offset
-         walk-offset
          (walk-dist 250)
          )
     (cond ((or (equal obj-place :left) (equal obj-place :right))
