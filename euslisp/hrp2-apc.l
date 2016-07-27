@@ -38,6 +38,7 @@
     (unless (and (boundp '*tf*) *tf*)
       (setq *tf* (instance ros::transform-listener :init)))
     (ros::subscribe "/checkerboard_detector0/objectdetection_pose" geometry_msgs::PoseStamped #'checkerboard-posest-cb)
+    (ros::subscribe "/hrp2_apc/fcn/centroid_publisher/output/pose" geometry_msgs::PoseStamped #'obj-posest-cb)
     (ros::advertise "/interactive_adjust_kiva_pod/move_marker" geometry_msgs::PoseStamped 1)
     )
   )
@@ -164,7 +165,18 @@
         (arm :rarm)
         (obj-place :left)
         (walk-dist-offset 0)
+        (recog? nil)
         )
+  "arguments:
+     obj-name: name of target object
+     bin-id: bin id (ex. :bin-a)
+     arm: reaching arm (:larm or :rarm)
+     obj-place: place of object in bin (:left, :right or :down)
+     walk-dist-offset: offset of walking distance
+     recog?: whether to use recognition or not
+  "
+
+  (ros::service-call "/hrp2_apc/fcn/octomap_server_object_probability/reset" (instance std_srvs::EmptyRequest :init))
 
   (when (or (and (equal arm :rarm) (equal obj-place :right)) (and (equal arm :larm) (equal obj-place :left)))
     (warning-message 1 "obj-place ~a is not supported for arm ~a.~%" obj-place arm)
@@ -181,11 +193,46 @@
 
   ;; for transit from cart demo
   (send *ri* :remove-joint-group :head)
-  (send *ri* :add-joint-group :head)
+  ;; (send *ri* :add-joint-group :head)
 
   (let* (ik-offset
          (walk-dist 250)
          )
+
+    (set-target-bin-obj :bin-id bin-id :obj obj-name)
+
+    (print-with-wait "walk-to-bin for look" "棚の見える位置へ移動します．")
+    (walk-to-bin :bin-id bin-id :arm :rarm :offset (float-vector (- walk-dist) -300 0) :neck-p-angle 20)
+
+    (print-with-wait "look-around-bin" "棚の中を見ます．")
+    (look-around-bin :bin-id bin-id)
+
+    ;; overwrite arm, obj-place and walk-dist-offset
+    (when recog?
+      (let* ((obj-pos-in-bin (get-obj-pos-in-bin :bin-id bin-id))
+             (obj-pos-y-thre 50)
+             (obj-pos-x-max 100)
+             (obj-pos-x-min -100)
+             )
+        ;; set arm and obj-place
+        (cond ((< (elt obj-pos-in-bin 1) (- obj-pos-y-thre))
+               (setq arm :larm)
+               (setq obj-place :right)
+               )
+              ((> (elt obj-pos-in-bin 1) obj-pos-y-thre)
+               (setq arm :rarm)
+               (setq obj-place :left)
+               )
+              (t
+               (setq arm :rarm)
+               (setq obj-place :down)
+               ))
+        ;; set walk-dist-offset
+        (setq walk-dist-offset (max (min (elt obj-pos-in-bin 0) obj-pos-x-max) obj-pos-x-min))
+        (warning-message 2 "obj-pos-in-bin: ~a  arm: ~a  obj-place: ~a  walk-dist-offset: ~a.~%"
+                         obj-pos-in-bin arm obj-place walk-dist-offset)
+        ))
+    ;; set ik offset depending on obj-place and bin-id
     (cond ((or (equal obj-place :left) (equal obj-place :right))
            (cond ((or (equal bin-id :bin-g) (equal bin-id :bin-h) (equal bin-id :bin-i))
                   (setq ik-offset (float-vector -50 -5 0)) ;; based on experiment with real robot
@@ -197,14 +244,6 @@
           (t ;; (equal obj-place :down)
            (setq ik-offset (float-vector -50 0 25))
            ))
-
-    (set-target-bin-obj :bin-id bin-id :obj obj-name)
-
-    (print-with-wait "walk-to-bin for look" "棚の見える位置へ移動します．")
-    (walk-to-bin :bin-id bin-id :arm :rarm :offset (float-vector (- walk-dist) -300 0) :neck-p-angle 20)
-
-    (print-with-wait "look-around-bin" "棚の中を見ます．")
-    (look-around-bin :bin-id bin-id)
 
     (print-with-wait "walk-to-bin for reach" "棚へ移動します．")
     (walk-to-bin :bin-id bin-id :arm arm :offset (float-vector (- walk-dist) 0 0))
@@ -276,12 +315,41 @@
     (print-with-wait "walk-from-thoth-to-bin" "棚へ移動します．")
     (walk-from-thoth-to-bin)
     ))
+;; (demo-hrp2-apc :bin-id :bin-i :obj-name "cherokee_easy_tee_shirt" :recog? t)
+;; (demo-hrp2-apc :bin-id :bin-k :obj-name "easter_turtle_sippy_cup" :recog? t)
+;; (demo-hrp2-apc :bin-id :bin-l :obj-name "fitness_gear_3lb_dumbbell" :recog? t)
+
 ;; (demo-hrp2-apc :arm :rarm :obj-place :left :bin-id :bin-l)
 ;; (demo-hrp2-apc :arm :rarm :obj-place :down :bin-id :bin-l)
 ;; (demo-hrp2-apc :arm :larm :obj-place :right :bin-id :bin-k)
 ;; (demo-hrp2-apc :arm :rarm :obj-place :left :bin-id :bin-i)
 
 ;; recognition ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun obj-posest-cb
+  (msg)
+  (setq *obj-coords* (send *tf* :transform-pose "kiva_pod_base" msg))
+  (warning-message 2 "detect object: ~a~%" *obj-coords*)
+  )
+
+(defun get-obj-pos-in-bin
+  (&key (bin-id :bin-l))
+  (let* ((kiva-pod-relative-obj-coords)
+         (world-relative-obj-coords)
+         (bin-relative-obj-coords)
+         )
+    (setq *obj-coords* nil)
+    (while t
+      (when *obj-coords*
+        (setq kiva-pod-relative-obj-coords (send *obj-coords* :copy-worldcoords))
+        (setq world-relative-obj-coords
+              (send (send (send *kiva-pod* :get :collision-object) :copy-worldcoords) :transform kiva-pod-relative-obj-coords :local))
+        (setq bin-relative-obj-coords
+              (send (send (send *kiva-pod* :get bin-id) :copy-worldcoords) :transformation world-relative-obj-coords))
+        (return))
+      (ros::spin-once))
+    (send bin-relative-obj-coords :worldpos)
+    ))
+
 (defun checkerboard-posest-cb
   (msg)
   (setq *checkerboard-coords* (ros::tf-pose->coords (send msg :pose)))
@@ -383,13 +451,24 @@
   ()
   (place-robot-relative-to-kiva-pod)
   (let* ((msg (instance geometry_msgs::PoseStamped :init))
-         (hdr (instance std_msgs::header :init :stamp (ros::time-now) :frame_id "BODY"))
-         (kiva-pod-coords
+         (hdr (instance std_msgs::header :init :stamp (ros::time-now) :frame_id "odom"))
+         kiva-pod-coords-relative-to-body
+         kiva-pod-coords-relative-to-odom
+         odom-to-body-transformation
+         kiva-pod-pose
+         )
+    (setq odom-to-body-transformation (send *tf* :lookup-transform "odom" "BODY" (ros::time 0)))
+    (unless odom-to-body-transformation
+      (warning-message 1 "failed to transform from odom to BODY.~%")
+      (return-from publish-kiva-pod-pose nil))
+    (setq kiva-pod-coords-relative-to-body
           (send (send (car (send *robot* :links)) :copy-worldcoords)
                 :transformation (send (send *kiva-pod* :get :collision-object) :copy-worldcoords) :local))
-         (kiva-pod-pose
-          (ros::coords->tf-pose kiva-pod-coords))
-         )
+    (setq kiva-pod-coords-relative-to-odom
+          (send (send odom-to-body-transformation :copy-worldcoords)
+                :transform (send kiva-pod-coords-relative-to-body :copy-worldcoords)))
+    (setq kiva-pod-pose
+          (ros::coords->tf-pose kiva-pod-coords-relative-to-odom))
     (send msg :header hdr)
     (send msg :pose kiva-pod-pose)
     (ros::publish "/interactive_adjust_kiva_pod/move_marker" msg)
@@ -507,8 +586,23 @@
       (send *ri* :go-pos go-pos-x go-pos-y go-pos-theta))
     ))
 
+(defun request-and-stop-pointcloud
+  ()
+  (unix:usleep (* 250 1000))
+  (ros::service-call "/hrp2_apc/fcn/passthrough_octomap_cloud_in/request" (instance std_srvs::EmptyRequest :init))
+  (unix:usleep (* 1000 1000))
+  (ros::service-call "/hrp2_apc/fcn/passthrough_octomap_cloud_in/stop" (instance std_srvs::EmptyRequest :init))
+  (unix:usleep (* 250 1000))
+  )
+
 (defun look-around-bin
   (&key (bin-id :bin-l))
+
+  (when (or (equal bin-id :bin-h) (equal bin-id :bin-k))
+    (send *robot* :reset-manip-pose)
+    (send *robot* :head :neck-p :joint-angle 40)
+    (model2real)
+    )
 
   (publish-kiva-pod-pose)
 
@@ -518,9 +612,11 @@
          (neck-p-step 15)
          )
     (when (or (equal bin-id :bin-g) (equal bin-id :bin-h) (equal bin-id :bin-i))
-      (setq neck-p-offset -20))
+      (setq neck-p-offset -20)
+      )
 
     ;; clear serivce
+    (ros::service-call "/hrp2_apc/fcn/octomap_server_object_probability/reset" (instance std_srvs::EmptyRequest :init))
 
     (send *robot* :reset-manip-pose)
     (send *robot* :legs :move-end-pos (float-vector 0 0 150) :world)
@@ -529,12 +625,15 @@
     (send *robot* :head :neck-p :joint-angle (- (+ 15 neck-p-offset) neck-p-step))
     (model2real :tm 8000)
     ;; update service
+    (request-and-stop-pointcloud)
     (send *robot* :head :neck-p :joint-angle neck-p-step :relative t)
     (model2real :tm 1000)
     ;; update service
+    (request-and-stop-pointcloud)
     (send *robot* :head :neck-p :joint-angle neck-p-step :relative t)
     (model2real :tm 1000)
     ;; update service
+    (request-and-stop-pointcloud)
 
     (send *robot* :reset-manip-pose)
     (send *robot* :legs :move-end-pos (float-vector 0 0 100) :world)
@@ -543,12 +642,15 @@
     (send *robot* :head :neck-p :joint-angle (- (+ 20 neck-p-offset) neck-p-step))
     (model2real :tm 2000)
     ;; update service
+    (request-and-stop-pointcloud)
     (send *robot* :head :neck-p :joint-angle neck-p-step :relative t)
     (model2real :tm 1000)
     ;; update service
+    (request-and-stop-pointcloud)
     (send *robot* :head :neck-p :joint-angle neck-p-step :relative t)
     (model2real :tm 1000)
     ;; update service
+    (request-and-stop-pointcloud)
 
     (send *robot* :reset-manip-pose)
     (send *robot* :legs :move-end-pos (float-vector 0 0 50) :world)
@@ -557,12 +659,15 @@
     (send *robot* :head :neck-p :joint-angle (- (+ 25 neck-p-offset) neck-p-step))
     (model2real :tm 2000)
     ;; update service
+    (request-and-stop-pointcloud)
     (send *robot* :head :neck-p :joint-angle neck-p-step :relative t)
     (model2real :tm 1000)
     ;; update service
+    (request-and-stop-pointcloud)
     (send *robot* :head :neck-p :joint-angle neck-p-step :relative t)
     (model2real :tm 1000)
     ;; update service
+    (request-and-stop-pointcloud)
 
     (send *robot* :reset-manip-pose)
     (send *robot* :fix-leg-to-coords foot-midcoords-orig)
@@ -570,12 +675,15 @@
     (send *robot* :head :neck-p :joint-angle (+ 30 neck-p-offset))
     (model2real :tm 2000)
     ;; update service
+    (request-and-stop-pointcloud)
     (send *robot* :head :neck-p :joint-angle neck-p-step :relative t)
     (model2real :tm 1000)
     ;; update service
+    (request-and-stop-pointcloud)
     (send *robot* :head :neck-p :joint-angle neck-p-step :relative t)
     (model2real :tm 1000)
     ;; update service
+    (request-and-stop-pointcloud)
     )
   )
 
@@ -908,6 +1016,7 @@
   (&key (bin-id :bin-l) (obj "cherokee_easy_tee_shirt"))
   (ros::set-dynamic-reconfigure-param "/hrp2_apc/bbox_array_to_bbox" "index" :int (get-int-from-bin-id bin-id))
   (ros::set-dynamic-reconfigure-param "/hrp2_apc/fcn/label_to_mask" "label_value" :int (position obj (ros::get-param "/hrp2_apc/fcn/label_names") :test #'string=))
+  (ros::set-dynamic-reconfigure-param "/hrp2_apc/fcn/extract_image_channel" "channel" :int (position obj (ros::get-param "/hrp2_apc/fcn/label_names") :test #'string=))
   )
 ;; (ros::set-dynamic-reconfigure-param "/hrp2_apc/bbox_array_to_bbox" "index" :int 11)
 ;; (ros::set-dynamic-reconfigure-param "/hrp2_apc/fcn/label_to_mask" "label_value" :int (position "cherokee_easy_tee_shirt" (ros::get-param "/hrp2_apc/fcn/label_names") :test #'string=))
