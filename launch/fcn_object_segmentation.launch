@@ -121,6 +121,12 @@
         args="load jsk_perception/ColorizeFloatImage $(arg MANAGER)">
     <remap from="~input" to="extract_image_channel/output" />
   </node>
+  <node name="overlay_image_color_on_mono"
+        pkg="nodelet" type="nodelet"
+        args="load jsk_perception/OverlayImageColorOnMono $(arg MANAGER)">
+    <remap from="~input/color" to="colorize_float_image/output" />
+    <remap from="~input/mono" to="$(arg INPUT_IMAGE)" />
+  </node>
   <node name="colorize_labels"
         pkg="nodelet" type="nodelet"
         args="load jsk_perception/ColorizeLabels $(arg MANAGER)">
