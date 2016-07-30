@@ -1,0 +1,53 @@
+<launch>
+
+  <arg name="rviz" default="true" />
+
+  <param name="/use_sim_time" value="true" />
+
+  <include file="$(find jsk_data)/launch/hrp2_play.launch">
+    <arg name="bagfile_names" value="$(find hrp2_apc)/raw_data/hrp2_apc_2016-07-27-21-06-33.bag" />
+    <arg name="launch_openni" value="true" />
+    <arg name="launch_multisense" value="false" />
+    <arg name="rosbag_option" value="--clock --loop" />
+  </include>
+
+  <include file="$(find jsk_2015_05_baxter_apc)/launch/include/kiva_pod_state.launch" />
+
+  <arg name="MANAGER" value="rosbag_play_nodelet_manager" />
+  <node name="$(arg MANAGER)"
+        pkg="nodelet" type="nodelet" args="manager" />
+
+  <group ns="/hrp2_apc/fcn">
+    <node name="colorize_float_image"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_perception/ColorizeFloatImage /$(arg MANAGER)">
+      <remap from="~input" to="extract_image_channel/output" />
+    </node>
+    <node name="overlay_image_color_on_mono"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_perception/OverlayImageColorOnMono /$(arg MANAGER)">
+      <remap from="~input/color" to="colorize_float_image/output" />
+      <remap from="~input/mono" to="/camera_remote/rgb/image_rect_color" />
+    </node>
+    <node name="colorize_labels"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_perception/ColorizeLabels /$(arg MANAGER)">
+      <remap from="~input" to="fcn_object_segmentation/output" />
+    </node>
+    <node name="label_image_decomposer"
+          pkg="jsk_perception" type="label_image_decomposer.py">
+      <remap from="~input" to="/camera_remote/rgb/image_rect_color" />
+      <remap from="~input/label" to="fcn_object_segmentation/output" />
+    </node>
+  </group>
+
+  <!-- visualization-based evaluation -->
+
+  <group if="$(arg rviz)">
+    <node name="rviz"
+          pkg="rviz" type="rviz"
+          args="-d $(find hrp2_apc)/rvizconfig/hrp2_apc_live_20160727.rviz">
+    </node>
+  </group>
+
+</launch>

@@ -17,6 +17,14 @@ def main():
         md5='d344dc71d4f545012fa7cdfa9dea4b15',
     )
 
+    download_data(
+        pkg=PKG,
+        path='raw_data/hrp2_apc_2016-07-27-21-06-33.bag',
+        url='https://drive.google.com/uc?id=0B9P1L--7Wd2vUTZjUHlfUVFSM1k',
+        md5='9e575b0a7d630d050a3a42a7f5b364a1',
+        extract=True,
+    )
+
 
 if __name__ == '__main__':
     main()
