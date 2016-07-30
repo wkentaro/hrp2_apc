@@ -4,8 +4,9 @@
   <arg name="INPUT_CLOUD" />
   <arg name="FIXED_FRAME" />
   <arg name="MANAGER" />
-  <arg name="QVGA" default="false" />
+  <arg name="QVGA" default="false" />  <!-- true means.. input image: VGA, input depth: QVGA -->
   <arg name="SIM" default="false" />
+  <arg name="USE_PASSTHROUGH" default="true" />
 
   <rosparam command="load" file="$(find hrp2_apc)/config/label_names.yaml" />
 
@@ -40,18 +41,24 @@
      </rosparam>
     </node>
   </group>
-  <node name="passthrough_octomap_cloud_in"
-        pkg="nodelet" type="nodelet"
-        args="load jsk_topic_tools/Passthrough $(arg MANAGER)">
-    <remap from="~input" to="$(arg INPUT_CLOUD)" />
-    <rosparam>
-      default_duration: 86400
-    </rosparam>
-  </node>
+  <group if="$(arg USE_PASSTHROUGH)">
+    <node name="passthrough_octomap_cloud_in"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_topic_tools/Passthrough $(arg MANAGER)">
+      <remap from="~input" to="$(arg INPUT_CLOUD)" />
+      <rosparam>
+        default_duration: 86400
+      </rosparam>
+    </node>
+  </group>
+  <arg name="INPUT_CLOUD_OCTOMAP" value="passthrough_octomap_cloud_in/output" if="$(arg USE_PASSTHROUGH)" />
+  <arg name="INPUT_CLOUD_OCTOMAP" value="$(arg INPUT_CLOUD)" unless="$(arg USE_PASSTHROUGH)" />
+  <arg name="INPUT_IMAGE_OCTOMAP" value="extract_image_channel/output/half" if="$(arg QVGA)" />
+  <arg name="INPUT_IMAGE_OCTOMAP" value="extract_image_channel/output" unless="$(arg QVGA)" />
   <node name="octomap_server_object_probability"
         pkg="octomap_server" type="octomap_server_object_probability">
-    <remap from="cloud_in" to="passthrough_octomap_cloud_in/output" />  <!-- depth timestamp -->
-    <remap from="proba_image_in" to="extract_image_channel/output/half" />  <!-- rgb timestamp -->
+    <remap from="cloud_in" to="$(arg INPUT_CLOUD_OCTOMAP)" />  <!-- depth timestamp -->
+    <remap from="proba_image_in" to="$(arg INPUT_IMAGE_OCTOMAP)" />  <!-- rgb timestamp -->
     <rosparam>
       frame_id: odom
       resolution: 0.01

@@ -21,8 +21,10 @@
         <arg name="INPUT_IMAGE" value="/camera_remote/rgb_half/image_rect_color" />
         <arg name="INPUT_CLOUD" value="/camera_remote/depth_registered/points" />
         <arg name="FIXED_FRAME" value="BODY" />
-        <arg name="MANAGER" value="$(arg MANAGER)" />
+        <arg name="MANAGER" value="/$(arg MANAGER)" />
+        <arg name="QVGA" value="false" />
         <arg name="SIM" value="true" />
+        <arg name="USE_PASSTHROUGH" value="false" />
       </include>
     </group>
 
