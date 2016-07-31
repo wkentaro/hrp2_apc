@@ -8,11 +8,18 @@
   <node name="$(arg MANAGER)"
         pkg="nodelet" type="nodelet" args="manager" />
 
+  <arg name="ROBOT" value="HRP2JSKNTS" />
+
   <include file="$(find jsk_data)/launch/hrp2_play.launch">
+    <arg name="ROBOT" value="$(arg ROBOT)" />
     <arg name="bagfile_names" value="$(find hrp2_apc)/raw_data/2016-07-19-16-46-05-hrp2_rosbag_apc_look_around.bag" />
+    <arg name="launch_robot_model" value="false" />
     <arg name="launch_openni" value="true" />
     <arg name="launch_multisense" value="false" />
   </include>
+
+  <param name="robot_description"
+         command="$(find xacro)/xacro $(find hrpsys_ros_bridge_tutorials)/models/$(arg ROBOT).urdf.xacro" />
 
   <group ns="hrp2_apc">
 

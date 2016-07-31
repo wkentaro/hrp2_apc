@@ -4,12 +4,18 @@
 
   <param name="/use_sim_time" value="true" />
 
+  <arg name="ROBOT" value="HRP2JSKNTS" />
+
   <include file="$(find jsk_data)/launch/hrp2_play.launch">
+    <arg name="ROBOT" value="$(arg ROBOT)" />
     <arg name="bagfile_names" value="$(find hrp2_apc)/raw_data/hrp2_apc_2016-07-27-21-06-33.bag" />
     <arg name="launch_openni" value="true" />
     <arg name="launch_multisense" value="false" />
     <arg name="rosbag_option" value="--clock --loop" />
   </include>
+
+  <param name="robot_description"
+         command="$(find xacro)/xacro $(find hrpsys_ros_bridge_tutorials)/models/$(arg ROBOT).urdf.xacro" />
 
   <include file="$(find jsk_2015_05_baxter_apc)/launch/include/kiva_pod_state.launch" />
 
