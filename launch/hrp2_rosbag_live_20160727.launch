@@ -12,6 +12,7 @@
     <arg name="launch_openni" value="true" />
     <arg name="launch_multisense" value="false" />
     <arg name="rosbag_option" value="--clock --loop" />
+    <arg name="use_xterm" value="true" />
   </include>
 
   <param name="robot_description"
@@ -24,6 +25,7 @@
         pkg="nodelet" type="nodelet" args="manager" />
 
   <group ns="/hrp2_apc/fcn">
+    <!-- OUR APPROACH -->
     <node name="colorize_float_image"
           pkg="nodelet" type="nodelet"
           args="load jsk_perception/ColorizeFloatImage /$(arg MANAGER)">
@@ -35,6 +37,13 @@
       <remap from="~input/color" to="colorize_float_image/output" />
       <remap from="~input/mono" to="/camera_remote/rgb/image_rect_color" />
     </node>
+    <node name="centroid_publisher"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl_utils/CentroidPublisher /$(arg MANAGER)">
+      <remap from="~input" to="octomap_point_cloud_centers" />
+    </node>
+
+    <!--
     <node name="colorize_labels"
           pkg="nodelet" type="nodelet"
           args="load jsk_perception/ColorizeLabels /$(arg MANAGER)">
@@ -44,6 +53,75 @@
           pkg="jsk_perception" type="label_image_decomposer.py">
       <remap from="~input" to="/camera_remote/rgb/image_rect_color" />
       <remap from="~input/label" to="fcn_object_segmentation/output" />
+    </node>
+    -->
+
+    <!-- BENCHMARK: conventional approach -->
+    <node name="image_resizer_bench"
+          pkg="nodelet" type="nodelet"
+          args="load resized_image_transport/ImageResizer /$(arg MANAGER)">
+     <remap from="~input/image" to="label_to_mask/output" />
+     <remap from="~output/image" to="label_to_mask/output/half" />
+     <rosparam>
+       use_camera_info: false
+       resize_scale_x: 0.5
+       resize_scale_y: 0.5
+       interpolation: NEAREST
+     </rosparam>
+    </node>
+    <node name="mask_to_point_indices_bench"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl_utils/MaskImageToPointIndices /$(arg MANAGER)">
+      <remap from="~input" to="label_to_mask/output/half" />
+    </node>
+    <node name="extract_indices_bench"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl/ExtractIndices /$(arg MANAGER)">
+      <remap from="~input" to="/hrp2_apc/extract_indices_target_bin/output" />
+      <remap from="~indices" to="mask_to_point_indices_bench/output" />
+      <rosparam>
+        approximate_sync: true
+        queue_size: 100
+        keep_organized: true
+      </rosparam>
+    </node>
+    <node name="euclidean_clustering_bench"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl/EuclideanClustering /$(arg MANAGER)">
+      <remap from="~input" to="extract_indices_bench/output" />  <!-- depth timestamp -->
+      <rosparam>
+        min_size: 1
+        max_size: 100000
+        tolerance: 0.05
+      </rosparam>
+    </node>
+    <node name="cluster_indices_decomposer_bench"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl/ClusterPointIndicesDecomposer /$(arg MANAGER)">
+      <remap from="~input" to="extract_indices_bench/output" />  <!-- depth timestamp -->
+      <remap from="~target" to="euclidean_clustering_bench/output" />  <!-- depth timestamp -->
+      <rosparam subst_value="true">
+        approximate_sync: true
+        queue_size: 1000
+        align_boxes: true
+        align_boxes_with_plane: false
+        target_frame_id: BODY
+      </rosparam>
+    </node>
+    <node name="pose_array_to_pose_bench"
+        pkg="jsk_recognition_utils" type="pose_array_to_pose.py">
+      <remap from="~input" to="cluster_indices_decomposer_bench/centroid_pose_array" />
+      <rosparam>
+        index: 0
+      </rosparam>
+    </node>
+    <node name="bbox_array_to_bbox_bench"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl_utils/BoundingBoxArrayToBoundingBox /$(arg MANAGER)">
+      <remap from="~input" to="cluster_indices_decomposer_bench/boxes" />
+      <rosparam>
+        index: 0
+      </rosparam>
     </node>
   </group>
 
