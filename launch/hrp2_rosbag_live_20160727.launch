@@ -8,7 +8,7 @@
 
   <include file="$(find jsk_data)/launch/hrp2_play.launch">
     <arg name="ROBOT" value="$(arg ROBOT)" />
-    <arg name="bagfile_names" value="$(find hrp2_apc)/raw_data/hrp2_apc_2016-07-27-21-06-33.bag" />
+    <arg name="bagfile_names" value="$(find hrp2_apc)/raw_data/hrp2_apc_2016-07-27-22-08-02.bag" />
     <arg name="launch_openni" value="true" />
     <arg name="launch_multisense" value="false" />
     <arg name="rosbag_option" value="--clock --loop" />
@@ -92,7 +92,7 @@
       <rosparam>
         min_size: 1
         max_size: 100000
-        tolerance: 0.05
+        tolerance: 0.02
       </rosparam>
     </node>
     <node name="cluster_indices_decomposer_bench"

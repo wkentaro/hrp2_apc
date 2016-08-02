@@ -6,10 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /RegistrationBased1
-        - /RegistrationBased1/TargetCentroid1
         - /MapBased1
-        - /MapBased1/TargetCentroid1
-      Splitter Ratio: 0.473684
+      Splitter Ratio: 0.679325
     Tree Height: 922
   - Class: rviz/Selection
     Name: Selection
@@ -29,7 +27,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: TargetCloud
+    SyncSource: HeadCamera
 Visualization Manager:
   Class: ""
   Displays:
@@ -335,14 +333,14 @@ Visualization Manager:
     - Background Alpha: 0.8
       Background Color: 0; 0; 0
       Class: jsk_rviz_plugin/OverlayText
-      Enabled: true
+      Enabled: false
       Foreground Alpha: 0.8
       Foreground Color: 25; 255; 240
       Name: TargetObject
       Overtake Color Properties: true
       Overtake Position Properties: true
       Topic: /hrp2_apc/fcn/label_names_overlay/output
-      Value: true
+      Value: false
       font: DejaVu Sans Mono
       height: 680
       left: 0
@@ -371,68 +369,18 @@ Visualization Manager:
     - Alpha: 0.5
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: true
+      Enabled: false
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        kiva_pod_base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        kiva_pod_y_part0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        kiva_pod_y_part1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        kiva_pod_y_part2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        kiva_pod_y_part3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        kiva_pod_z_part0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        kiva_pod_z_part1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        kiva_pod_z_part2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        kiva_pod_z_part3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        kiva_pod_z_part4:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: KivaPodModel
       Robot Description: kiva_pod_description
       TF Prefix: ""
       Update Interval: 0
-      Value: true
+      Value: false
       Visual Enabled: true
     - Class: jsk_rviz_plugin/OverlayImage
       Enabled: true
@@ -442,8 +390,8 @@ Visualization Manager:
       alpha: 1
       height: 128
       keep aspect ratio: true
-      left: 1007
-      top: 18
+      left: 1078
+      top: 14
       width: 400
     - Class: jsk_rviz_plugin/BoundingBoxArray
       Enabled: false
@@ -456,6 +404,18 @@ Visualization Manager:
       coloring: Auto
       line width: 0.005
       only edge: false
+      show coords: false
+    - Class: jsk_rviz_plugin/BoundingBox
+      Enabled: false
+      Name: TargetBin
+      Topic: /hrp2_apc/bbox_array_to_bbox/output
+      Unreliable: false
+      Value: false
+      alpha: 0.8
+      color: 0; 170; 0
+      coloring: Flat color
+      line width: 0.005
+      only edge: true
       show coords: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -524,7 +484,7 @@ Visualization Manager:
           Color: 255; 0; 0
           Color Transformer: RGB8
           Decay Time: 0
-          Enabled: true
+          Enabled: false
           Invert Rainbow: false
           Max Color: 255; 0; 0
           Max Intensity: 4096
@@ -541,7 +501,7 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: true
+          Value: false
         - Class: jsk_rviz_plugin/OverlayImage
           Enabled: true
           Name: TargetMask
@@ -550,15 +510,15 @@ Visualization Manager:
           alpha: 0.8
           height: 128
           keep aspect ratio: true
-          left: 1004
-          top: 666
+          left: 1082
+          top: 649
           width: 400
         - Class: jsk_rviz_plugin/BoundingBox
-          Enabled: true
+          Enabled: false
           Name: TargetBox
           Topic: /hrp2_apc/fcn/bbox_array_to_bbox_bench/output
           Unreliable: false
-          Value: true
+          Value: false
           alpha: 0.2
           color: 25; 255; 0
           coloring: Flat color
@@ -570,7 +530,7 @@ Visualization Manager:
           Axes Radius: 0.01
           Class: rviz/Pose
           Color: 255; 25; 0
-          Enabled: true
+          Enabled: false
           Head Length: 0.05
           Head Radius: 0.02
           Name: TargetCentroid
@@ -579,7 +539,7 @@ Visualization Manager:
           Shape: Axes
           Topic: /hrp2_apc/fcn/pose_array_to_pose_bench/output
           Unreliable: false
-          Value: true
+          Value: false
       Enabled: true
       Name: RegistrationBased
     - Class: rviz/Group
@@ -592,16 +552,16 @@ Visualization Manager:
           alpha: 1
           height: 128
           keep aspect ratio: true
-          left: 1008
-          top: 332
+          left: 1081
+          top: 331
           width: 400
         - Class: octomap_rviz_plugin/OccupancyGrid
-          Enabled: false
+          Enabled: true
           Max. Octree Depth: 16
           Name: LabelOccupancyGrid
           Octomap Topic: /hrp2_apc/fcn/octomap_full
           Queue Size: 5
-          Value: false
+          Value: true
           Voxel Coloring: Cell Probability
           Voxel Rendering: Occupied Voxels
         - Alpha: 1
@@ -676,22 +636,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.46891
+      Distance: 2.23543
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.67028
-        Y: 0.354223
-        Z: 1.19807
+        X: 0.666001
+        Y: -0.105331
+        Z: 0.78078
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.325399
+      Pitch: 0.100398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.85035
+      Yaw: 1.34533
     Saved: ~
 Window Geometry:
   Displays:
@@ -699,7 +659,7 @@ Window Geometry:
   Height: 1056
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd000000040000000000000206000003dafc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000003da000000d600fffffffb00000014004800650061006400430061006d00650072006102000005c2000000620000016a00000119fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018005300650067006d0065006e0074006100740069006f006e020000050d00000193000002540000023b000000010000010f000002c4fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000028000002c4000000ac00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007800000003efc0100000002fb0000000800540069006d0065000000000000000780000002f500fffffffb0000000800540069006d0065010000000000000450000000000000000000000574000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000040000000000000182000003dafc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000003da000000d600fffffffb00000014004800650061006400430061006d00650072006102000005c2000000620000016a00000119fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018005300650067006d0065006e0074006100740069006f006e020000050d00000193000002540000023b000000010000010f000002c4fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000028000002c4000000ac00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007800000003efc0100000002fb0000000800540069006d0065000000000000000780000002f500fffffffb0000000800540069006d00650100000000000004500000000000000000000005f8000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
