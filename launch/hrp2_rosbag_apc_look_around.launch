@@ -24,7 +24,7 @@
   <group ns="hrp2_apc">
 
     <group ns="fcn">
-      <include file="$(find hrp2_apc)/launch/fcn_object_segmentation.launch">
+      <include file="$(find hrp2_apc)/launch/object_segmentation_3d.launch">
         <arg name="INPUT_IMAGE" value="/camera_remote/rgb_half/image_rect_color" />
         <arg name="INPUT_CLOUD" value="/camera_remote/depth_registered/points" />
         <arg name="FIXED_FRAME" value="BODY" />
