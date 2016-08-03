@@ -81,7 +81,7 @@
 
     <!-- FCN segmentation -->
     <group ns="fcn">
-      <include file="$(find hrp2_apc)/launch/fcn_object_segmentation.launch">
+      <include file="$(find hrp2_apc)/launch/object_segmentation_3d.launch">
         <arg name="INPUT_IMAGE" value="$(arg INPUT_IMAGE)" />
         <arg name="INPUT_CLOUD" value="/hrp2_apc/extract_indices_target_bin/output" />
         <arg name="FIXED_FRAME" value="BODY" />
