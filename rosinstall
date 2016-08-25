@@ -7,18 +7,6 @@
     uri: git@github.com:wkentaro/octomap_mapping.git
     version: octomap-server-object-probability
 - git:
-    local-name: jsk-ros-pkg/jsk_recognition
-    uri: git@github.com:wkentaro/jsk_recognition.git
-    version: develop
-- git:
-    local-name: jsk-ros-pkg/jsk_visualization
-    uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
-    version: master
-- git:
-    local-name: ros-perception/vision_opencv
-    uri: git@github.com:wkentaro/vision_opencv.git
-    version: develop
-- git:
     local-name: start-jsk/jsk_apc
     uri: https://github.com/start-jsk/jsk_apc.git
     version: master
