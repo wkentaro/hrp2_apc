@@ -4,8 +4,8 @@
     version: devel
 - git:
     local-name: OctoMap/octomap_mapping
-    uri: git@github.com:wkentaro/octomap_mapping.git
-    version: octomap-server-object-probability
+    uri: https://github.com/OctoMap/octomap_mapping.git
+    version: indigo-devel
 - git:
     local-name: jsk-ros-pkg/jsk_recognition
     uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
