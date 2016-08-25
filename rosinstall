@@ -7,6 +7,10 @@
     uri: git@github.com:wkentaro/octomap_mapping.git
     version: octomap-server-object-probability
 - git:
+    local-name: jsk-ros-pkg/jsk_recognition
+    uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
+    version: master
+- git:
     local-name: start-jsk/jsk_apc
     uri: https://github.com/start-jsk/jsk_apc.git
     version: master
