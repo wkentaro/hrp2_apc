@@ -55,8 +55,8 @@
   <arg name="INPUT_CLOUD_OCTOMAP" value="$(arg INPUT_CLOUD)" unless="$(arg USE_PASSTHROUGH)" />
   <arg name="INPUT_IMAGE_OCTOMAP" value="extract_image_channel/output/half" if="$(arg QVGA)" />
   <arg name="INPUT_IMAGE_OCTOMAP" value="extract_image_channel/output" unless="$(arg QVGA)" />
-  <node name="octomap_server_object_probability"
-        pkg="octomap_server" type="octomap_server_object_probability">
+  <node name="single_label_octomap_server"
+        pkg="octomap_server" type="single_label_octomap_server">
     <remap from="cloud_in" to="$(arg INPUT_CLOUD_OCTOMAP)" />  <!-- depth timestamp -->
     <remap from="proba_image_in" to="$(arg INPUT_IMAGE_OCTOMAP)" />  <!-- rgb timestamp -->
     <rosparam>
