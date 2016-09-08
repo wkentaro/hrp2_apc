@@ -31,8 +31,8 @@
     <node name="image_resizer"
           pkg="nodelet" type="nodelet"
           args="load resized_image_transport/ImageResizer $(arg MANAGER)">
-     <remap from="~input/image" to="extract_image_channel/output" />
-     <remap from="~output/image" to="extract_image_channel/output/half" />
+     <remap from="~input/image" to="fcn_object_segmentation/output/proba_image" />
+     <remap from="~output/image" to="fcn_object_segmentation/output/proba_image/half" />
      <rosparam>
        use_camera_info: false
        resize_scale_x: 0.5
@@ -53,13 +53,15 @@
   </group>
   <arg name="INPUT_CLOUD_OCTOMAP" value="passthrough_octomap_cloud_in/output" if="$(arg USE_PASSTHROUGH)" />
   <arg name="INPUT_CLOUD_OCTOMAP" value="$(arg INPUT_CLOUD)" unless="$(arg USE_PASSTHROUGH)" />
-  <arg name="INPUT_IMAGE_OCTOMAP" value="extract_image_channel/output/half" if="$(arg QVGA)" />
-  <arg name="INPUT_IMAGE_OCTOMAP" value="extract_image_channel/output" unless="$(arg QVGA)" />
-  <node name="single_label_octomap_server"
-        pkg="octomap_server" type="single_label_octomap_server">
+  <arg name="INPUT_IMAGE_OCTOMAP" value="fcn_object_segmentation/output/proba_image/half" if="$(arg QVGA)" />
+  <arg name="INPUT_IMAGE_OCTOMAP" value="fcn_object_segmentation/output/proba_image" unless="$(arg QVGA)" />
+  <node name="label_octomap_server"
+        pkg="octomap_server" type="label_octomap_server"
+        output="screen">
     <remap from="cloud_in" to="$(arg INPUT_CLOUD_OCTOMAP)" />  <!-- depth timestamp -->
     <remap from="proba_image_in" to="$(arg INPUT_IMAGE_OCTOMAP)" />  <!-- rgb timestamp -->
     <rosparam>
+      n_label: 40
       frame_id: odom
       resolution: 0.01
       latch: false
