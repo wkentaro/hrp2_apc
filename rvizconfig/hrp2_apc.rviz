@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /OccupancyGrid1
+        - /ColorOccupancyGrid1
       Splitter Ratio: 0.427632
     Tree Height: 922
   - Class: rviz/Selection
@@ -382,16 +383,16 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: octomap_rviz_plugin/OccupancyGrid
-      Enabled: true
-      Max. Height Display: inf
+      Enabled: false
+      Max. Height Display: 3.40282e+38
       Max. Octree Depth: 16
-      Min. Height Display: -inf
+      Min. Height Display: -3.40282e+38
       Name: OccupancyGrid
       Octomap Topic: /hrp2_apc/fcn/octomap_full
       Queue Size: 5
-      Value: true
+      Value: false
       Voxel Alpha: 1
-      Voxel Coloring: Label Color
+      Voxel Coloring: Cell Color
       Voxel Rendering: Occupied Voxels
     - Class: jsk_rviz_plugin/OverlayImage
       Enabled: true
@@ -513,6 +514,18 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
+    - Class: octomap_rviz_plugin/ColorOccupancyGrid
+      Enabled: true
+      Max. Height Display: 3.40282e+38
+      Max. Octree Depth: 16
+      Min. Height Display: -3.40282e+38
+      Name: ColorOccupancyGrid
+      Octomap Topic: /hrp2_apc/fcn/octomap_full
+      Queue Size: 5
+      Value: true
+      Voxel Alpha: 1
+      Voxel Coloring: Cell Color
+      Voxel Rendering: Occupied Voxels
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -538,22 +551,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.40584
+      Distance: 3.01789
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.721058
-        Y: -0.385038
-        Z: 0.759762
+        X: 0.59841
+        Y: -0.514154
+        Z: 0.789365
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.415399
+      Pitch: 0.440399
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.38038
+      Yaw: 2.28538
     Saved: ~
 Window Geometry:
   Displays:

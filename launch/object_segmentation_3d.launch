@@ -55,6 +55,8 @@
   <arg name="INPUT_CLOUD_OCTOMAP" value="$(arg INPUT_CLOUD)" unless="$(arg USE_PASSTHROUGH)" />
   <arg name="INPUT_IMAGE_OCTOMAP" value="fcn_object_segmentation/output/proba_image/half" if="$(arg QVGA)" />
   <arg name="INPUT_IMAGE_OCTOMAP" value="fcn_object_segmentation/output/proba_image" unless="$(arg QVGA)" />
+  <!-- <arg name="INPUT_IMAGE_OCTOMAP" value="extract_image_channel/output/half" if="$(arg QVGA)" /> -->
+  <!-- <arg name="INPUT_IMAGE_OCTOMAP" value="extract_image_channel/output" unless="$(arg QVGA)" /> -->
   <node name="label_octomap_server"
         pkg="octomap_server" type="label_octomap_server"
         output="screen">
