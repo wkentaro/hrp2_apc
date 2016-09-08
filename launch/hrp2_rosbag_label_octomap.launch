@@ -1,0 +1,90 @@
+<launch>
+
+  <arg name="rviz" default="true" />
+
+  <param name="/use_sim_time" value="true" />
+
+  <arg name="ROBOT" value="HRP2JSKNTS" />
+
+  <include file="$(find jsk_data)/launch/hrp2_play.launch">
+    <arg name="ROBOT" value="$(arg ROBOT)" />
+    <arg name="bagfile_names" value="$(find hrp2_apc)/raw_data/hrp2_apc_2016-07-27-22-08-02.bag" />
+    <arg name="launch_openni" value="true" />
+    <arg name="launch_multisense" value="false" />
+    <arg name="rosbag_option" value="--clock --loop" />
+    <arg name="use_xterm" value="true" />
+  </include>
+
+  <param name="robot_description"
+         command="$(find xacro)/xacro $(find hrpsys_ros_bridge_tutorials)/models/$(arg ROBOT).urdf.xacro" />
+
+  <include file="$(find jsk_2015_05_baxter_apc)/launch/include/kiva_pod_state.launch" />
+
+  <arg name="MANAGER" value="manager" />
+  <node name="$(arg MANAGER)"
+        pkg="nodelet" type="nodelet" args="manager" />
+
+  <group ns="/hrp2_apc/fcn">
+    <node name="colorize_labels"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_perception/ColorizeLabels /$(arg MANAGER)">
+      <remap from="~input" to="fcn_object_segmentation/output" />
+    </node>
+    <node name="overlay_image_color_on_mono"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_perception/OverlayImageColorOnMono /$(arg MANAGER)">
+      <remap from="~input/color" to="colorize_labels/output" />
+      <remap from="~input/mono" to="/camera_remote/rgb/image_rect_color" />
+    </node>
+  </group>
+
+  <rosparam command="load" file="$(find hrp2_apc)/config/label_names.yaml" />
+
+  <group ns="/hrp2_apc/fcn_new">
+    <!-- OUR APPROACH -->
+    <node name="fcn_object_segmentation"
+          pkg="jsk_perception" type="fcn_object_segmentation.py">
+      <remap from="~input" to="/camera_remote/rgb/image_rect_color" />  <!-- rgb timestamp -->
+      <rosparam subst_value="true">
+        gpu: 0
+        model_name: fcn32s
+        model_h5: $(find jsk_apc2016_common)/trained_data/fcn32s_6000.chainermodel
+      </rosparam>
+      <remap from="~target_names" to="/label_names" />
+    </node>
+    <node name="image_resizer"
+          pkg="nodelet" type="nodelet"
+          args="load resized_image_transport/ImageResizer /$(arg MANAGER)">
+      <remap from="~input/image" to="fcn_object_segmentation/output/proba_image" />
+      <remap from="~output/image" to="fcn_object_segmentation/output/proba_image/half" />
+      <rosparam>
+        use_camera_info: false
+        resize_scale_x: 0.5
+        resize_scale_y: 0.5
+        interpolation: NEAREST
+      </rosparam>
+    </node>
+    <node name="label_octomap_server"
+          pkg="octomap_server" type="label_octomap_server">
+      <remap from="cloud_in" to="/camera_remote/depth_registered/points" />
+      <remap from="proba_image_in" to="fcn_object_segmentation/output/proba_image/half" />
+      <rosparam>
+        n_label: 40
+        frame_id: odom
+        resolution: 0.03
+        latch: false
+        publish_periodically: true
+      </rosparam>
+    </node>
+  </group>
+
+  <!-- visualization-based evaluation -->
+
+  <group if="$(arg rviz)">
+    <node name="rviz"
+          pkg="rviz" type="rviz"
+          args="-d $(find hrp2_apc)/rvizconfig/hrp2_apc_label_octomap.rviz">
+    </node>
+  </group>
+
+</launch>
