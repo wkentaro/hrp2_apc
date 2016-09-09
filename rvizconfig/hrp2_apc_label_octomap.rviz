@@ -7,8 +7,6 @@ Panels:
         - /Global Options1
         - /RegistrationBased1
         - /MapBased1
-        - /ColorOccupancyGrid1
-        - /ColorOccupancyGrid1/Status1
       Splitter Ratio: 0.483146
     Tree Height: 922
   - Class: rviz/Selection
@@ -29,7 +27,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: HeadCamera
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -63,7 +61,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -80,7 +78,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
@@ -533,18 +531,6 @@ Visualization Manager:
           left: 1081
           top: 331
           width: 400
-        - Class: octomap_rviz_plugin/OccupancyGrid
-          Enabled: false
-          Max. Height Display: 3.40282e+38
-          Max. Octree Depth: 16
-          Min. Height Display: -3.40282e+38
-          Name: LabelOccupancyGrid
-          Octomap Topic: /hrp2_apc/fcn/octomap_full
-          Queue Size: 5
-          Value: false
-          Voxel Alpha: 1
-          Voxel Coloring: Cell Probability
-          Voxel Rendering: Occupied Voxels
         - Alpha: 1
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -555,7 +541,7 @@ Visualization Manager:
           Channel Name: intensity
           Class: rviz/PointCloud2
           Color: 255; 0; 0
-          Color Transformer: FlatColor
+          Color Transformer: RGB8
           Decay Time: 0
           Enabled: false
           Invert Rainbow: false
@@ -570,7 +556,7 @@ Visualization Manager:
           Size (Pixels): 8
           Size (m): 0.01
           Style: Points
-          Topic: /hrp2_apc/fcn/octomap_point_cloud_centers
+          Topic: /hrp2_apc/fcn_new/octomap_point_cloud_centers
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
@@ -592,18 +578,22 @@ Visualization Manager:
           Value: true
       Enabled: true
       Name: MapBased
-    - Class: octomap_rviz_plugin/ColorOccupancyGrid
+    - Class: rviz/MarkerArray
       Enabled: true
-      Max. Height Display: 3.40282e+38
-      Max. Octree Depth: 16
-      Min. Height Display: -3.40282e+38
-      Name: ColorOccupancyGrid
-      Octomap Topic: /hrp2_apc/fcn_new/octomap_full
-      Queue Size: 5
+      Marker Topic: /hrp2_apc/fcn_new/occupied_cells_vis_array
+      Name: OccupiedVoxels
+      Namespaces:
+        {}
+      Queue Size: 100
       Value: true
-      Voxel Alpha: 1
-      Voxel Coloring: Cell Color
-      Voxel Rendering: Occupied Voxels
+    - Class: rviz/MarkerArray
+      Enabled: false
+      Marker Topic: /hrp2_apc/fcn_new/free_cells_vis_array
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -636,15 +626,15 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.764131
-        Y: -0.157689
-        Z: 1.16559
+        X: 0.710786
+        Y: -0.184515
+        Z: 1.00578
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.285398
+      Pitch: 0.400398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.68534
+      Yaw: 2.41032
     Saved: ~
 Window Geometry:
   Displays:
