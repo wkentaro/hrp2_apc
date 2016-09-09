@@ -5,8 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /OccupancyGrid1
-        - /ColorOccupancyGrid1
+        - /OccupiedFG1
       Splitter Ratio: 0.427632
     Tree Height: 922
   - Class: rviz/Selection
@@ -382,18 +381,6 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
-    - Class: octomap_rviz_plugin/OccupancyGrid
-      Enabled: false
-      Max. Height Display: 3.40282e+38
-      Max. Octree Depth: 16
-      Min. Height Display: -3.40282e+38
-      Name: OccupancyGrid
-      Octomap Topic: /hrp2_apc/fcn/octomap_full
-      Queue Size: 5
-      Value: false
-      Voxel Alpha: 1
-      Voxel Coloring: Cell Color
-      Voxel Rendering: Occupied Voxels
     - Class: jsk_rviz_plugin/OverlayImage
       Enabled: true
       Name: HeadCamera
@@ -406,10 +393,10 @@ Visualization Manager:
       top: 18
       width: 400
     - Class: jsk_rviz_plugin/OverlayImage
-      Enabled: true
+      Enabled: false
       Name: TargetProba
       Topic: /hrp2_apc/fcn/overlay_image_color_on_mono/output
-      Value: true
+      Value: false
       alpha: 1
       height: 128
       keep aspect ratio: true
@@ -417,15 +404,15 @@ Visualization Manager:
       top: 332
       width: 400
     - Class: jsk_rviz_plugin/OverlayImage
-      Enabled: false
+      Enabled: true
       Name: Segmentation
       Topic: /hrp2_apc/fcn/colorize_labels/output
-      Value: false
+      Value: true
       alpha: 0.8
       height: 128
       keep aspect ratio: true
-      left: 891
-      top: 669
+      left: 1009
+      top: 337
       width: 400
     - Class: jsk_rviz_plugin/BoundingBoxArray
       Enabled: false
@@ -444,7 +431,7 @@ Visualization Manager:
       Axes Radius: 0.01
       Class: rviz/Pose
       Color: 255; 25; 0
-      Enabled: true
+      Enabled: false
       Head Length: 0.3
       Head Radius: 0.1
       Name: TargetCentroid
@@ -453,7 +440,7 @@ Visualization Manager:
       Shape: Axes
       Topic: /hrp2_apc/fcn/centroid_publisher/output/pose
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -514,18 +501,22 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
-    - Class: octomap_rviz_plugin/ColorOccupancyGrid
+    - Class: rviz/MarkerArray
       Enabled: true
-      Max. Height Display: 3.40282e+38
-      Max. Octree Depth: 16
-      Min. Height Display: -3.40282e+38
-      Name: ColorOccupancyGrid
-      Octomap Topic: /hrp2_apc/fcn/octomap_full
-      Queue Size: 5
+      Marker Topic: /hrp2_apc/fcn/marker_array/occupied_fg
+      Name: OccupiedFG
+      Namespaces:
+        map: true
+      Queue Size: 100
       Value: true
-      Voxel Alpha: 1
-      Voxel Coloring: Cell Color
-      Voxel Rendering: Occupied Voxels
+    - Class: rviz/MarkerArray
+      Enabled: false
+      Marker Topic: /hrp2_apc/fcn/marker_array/occupied_bg
+      Name: OccupiedBG
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -551,22 +542,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.01789
+      Distance: 3.08513
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.59841
-        Y: -0.514154
-        Z: 0.789365
+        X: 0.506552
+        Y: -0.625842
+        Z: 0.830768
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.440399
+      Pitch: 0.335399
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.28538
+      Yaw: 2.18537
     Saved: ~
 Window Geometry:
   Displays:

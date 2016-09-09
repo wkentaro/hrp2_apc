@@ -68,6 +68,7 @@
       resolution: 0.01
       latch: false
       publish_periodically: true
+      max_range: 2.0
     </rosparam>
   </node>
   <node name="centroid_publisher"
