@@ -19,7 +19,6 @@
   <build_depend>jsk_data</build_depend>
   <build_depend>jsk_pcl_ros</build_depend>
   <build_depend>jsk_perception</build_depend>
-  <build_depend>octomap_rviz_plugins</build_depend>
   <build_depend>octomap_server</build_depend>
   <build_depend>resized_image_transport</build_depend>
 
@@ -29,7 +28,6 @@
   <run_depend>jsk_data</run_depend>
   <run_depend>jsk_pcl_ros</run_depend>
   <run_depend>jsk_perception</run_depend>
-  <run_depend>octomap_rviz_plugins</run_depend>
   <run_depend>octomap_server</run_depend>
   <run_depend>resized_image_transport</run_depend>
 
