@@ -56,24 +56,25 @@
           pkg="nodelet" type="nodelet"
           args="load resized_image_transport/ImageResizer /$(arg MANAGER)">
       <remap from="~input/image" to="fcn_object_segmentation/output/proba_image" />
-      <remap from="~output/image" to="fcn_object_segmentation/output/proba_image/half" />
+      <remap from="~output/image" to="fcn_object_segmentation/output/proba_image/quarter" />
       <rosparam>
         use_camera_info: false
-        resize_scale_x: 0.5
-        resize_scale_y: 0.5
+        resize_scale_x: 0.25
+        resize_scale_y: 0.25
         interpolation: NEAREST
       </rosparam>
     </node>
     <node name="label_octomap_server"
           pkg="octomap_server" type="label_octomap_server">
-      <remap from="cloud_in" to="/camera_remote/depth_registered/points" />
-      <remap from="proba_image_in" to="fcn_object_segmentation/output/proba_image/half" />
+      <remap from="cloud_in" to="/camera_remote/depth_registered_half/points" />
+      <remap from="proba_image_in" to="fcn_object_segmentation/output/proba_image/quarter" />
       <rosparam>
         n_label: 40
         frame_id: odom
-        resolution: 0.03
+        resolution: 0.02
         latch: false
         publish_periodically: true
+        sensor_model/max_range: 2.0
       </rosparam>
     </node>
   </group>
