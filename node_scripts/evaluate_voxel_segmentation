@@ -73,8 +73,13 @@ class EvaluateVoxelOctomap(object):
         if self.bbox is None:
             rospy.logerr('Bounding box annotated by human is not set.')
             return
-        vel_linear, _ = self.tf_listener.lookupTwist(
-            "camera_link", "HEAD_LINK0", rospy.Time(0), rospy.Duration(1.0))
+        try:
+            vel_linear, _ = self.tf_listener.lookupTwist(
+                "camera_link", "HEAD_LINK0",
+                rospy.Time(0), rospy.Duration(1.0))
+        except tf.ExtrapolationException as e:
+            rospy.logerr(e)
+            return
         velocity = np.linalg.norm(list(vel_linear))
         stamp = marker_array_msg.markers[0].header.stamp
         iu, tp, fn, fp = compute_iu_between_voxels_and_bbox(
