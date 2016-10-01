@@ -569,7 +569,7 @@ Visualization Manager:
           Marker Topic: /octomap_to_marker_array/output
           Name: LabelOccupancyGrid
           Namespaces:
-            map: true
+            {}
           Queue Size: 100
           Value: true
         - Alpha: 1
@@ -677,10 +677,10 @@ Visualization Manager:
         Z: 0.834039
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.455398
+      Pitch: 0.324797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.08352
+      Yaw: 3.7985
     Saved: ~
 Window Geometry:
   Displays:
@@ -698,5 +698,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1918
-  X: 71
+  X: 51
   Y: 14
