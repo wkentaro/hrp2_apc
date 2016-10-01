@@ -49,6 +49,7 @@ def compute_iu_between_voxels_and_bbox(marker_array, bbox):
 class EvaluateVoxelOctomap(object):
 
     def __init__(self):
+        self.prev_stamp = rospy.Time(0)
         self.bbox = None
         self.tf_listener = tf.TransformListener()
         rp = rospkg.RosPack()
@@ -69,6 +70,11 @@ class EvaluateVoxelOctomap(object):
         self.sub_box_gt.unregister()
 
     def cb_voxels(self, marker_array_msg):
+        stamp = marker_array_msg.markers[0].header.stamp
+        if stamp < self.prev_stamp:
+            rospy.logwarn('Time is reversed, skipping.')
+            return
+        self.prev_stamp = stamp
         # TODO(wkentaro): Generalize frames
         if self.bbox is None:
             rospy.logerr('Bounding box annotated by human is not set.')
@@ -81,7 +87,6 @@ class EvaluateVoxelOctomap(object):
             rospy.logerr(e)
             return
         velocity = np.linalg.norm(list(vel_linear))
-        stamp = marker_array_msg.markers[0].header.stamp
         iu, tp, fn, fp = compute_iu_between_voxels_and_bbox(
             marker_array_msg,
             self.bbox,
@@ -91,7 +96,6 @@ class EvaluateVoxelOctomap(object):
                     stamp=stamp.to_nsec(),
                     tp=tp, fn=fn, fp=fp, iu=iu,
                     vel=velocity))
-
 
 if __name__ == '__main__':
     rospy.init_node('evaluate_voxel_segmentation')
