@@ -1,9 +1,10 @@
 <launch>
 
   <arg name="label_value" />
+  <arg name="rosbag_option" default="--clock --start=30" />
 
   <include file="$(find hrp2_apc)/launch/hrp2_rosbag_live_20160727.launch">
-    <arg name="rosbag_option" value="--clock --start=30" />
+    <arg name="rosbag_option" value="$(arg rosbag_option)" />
   </include>
 
   <node name="transformable_interactive_server"
