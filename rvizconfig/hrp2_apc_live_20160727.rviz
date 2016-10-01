@@ -569,7 +569,7 @@ Visualization Manager:
           Marker Topic: /octomap_to_marker_array/output
           Name: LabelOccupancyGrid
           Namespaces:
-            {}
+            map: true
           Queue Size: 100
           Value: true
         - Alpha: 1
@@ -665,22 +665,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.6648
+      Distance: 2.33892
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.17317
-        Y: -0.48975
-        Z: 1.20454
+        X: 1.23755
+        Y: -0.272486
+        Z: 0.834039
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.325398
+      Pitch: 0.280398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.97034
+      Yaw: 6.26853
     Saved: ~
 Window Geometry:
   Displays:
@@ -698,5 +698,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1918
-  X: -8
+  X: -10
   Y: 14
