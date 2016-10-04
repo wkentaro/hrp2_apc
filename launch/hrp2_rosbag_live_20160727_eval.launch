@@ -1,9 +1,11 @@
 <launch>
 
   <arg name="label_value" />
+  <arg name="rviz" default="true" />
   <arg name="rosbag_option" default="--clock --start=30" />
 
   <include file="$(find hrp2_apc)/launch/hrp2_rosbag_live_20160727.launch">
+    <arg name="rviz" value="false" />
     <arg name="rosbag_option" value="$(arg rosbag_option)" />
   </include>
 
@@ -42,5 +44,12 @@
     <remap from="~input/bbox_gt" to="bbox_array_to_bbox/output" />
     <remap from="~input/voxels" to="octomap_to_marker_array/output" />
   </node>
+
+  <group if="$(arg rviz)">
+    <node name="$(anon rviz)"
+          pkg="rviz" type="rviz"
+          args="-d $(find hrp2_apc)/rvizconfig/hrp2_apc_live_20160727_eval.rviz">
+    </node>
+  </group>
 
 </launch>
