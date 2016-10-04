@@ -1,28 +1,68 @@
 - git:
     local-name: OctoMap/octomap
-    uri: https://github.com/OctoMap/octomap.git
-    version: devel
+    uri: git@github.com:wkentaro/octomap.git
+    version: label-occupancy-octree
 - git:
     local-name: OctoMap/octomap_mapping
     uri: git@github.com:wkentaro/octomap_mapping.git
-    version: octomap-server-object-probability
+    version: label-occupancy-octree
+- git:
+    local-name: OctoMap/octomap_ros
+    uri: https://github.com/OctoMap/octomap_ros.git
+    version: indigo-devel
+- git:
+    local-name: RethinkRobotics/baxter_interface
+    uri: git@github.com:wkentaro/baxter_interface.git
+    version: baxtereus-devel
 - git:
     local-name: jsk-ros-pkg/jsk_recognition
-    uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
+    uri: git@github.com:wkentaro/jsk_recognition.git
+    version: label-occupancy-octree
+- git:
+    local-name: jsk-ros-pkg/jsk_robot
+    uri: https://github.com/jsk-ros-pkg/jsk_robot.git
     version: master
 - git:
+    local-name: jsk-ros-pkg/jsk_visualization
+    uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
+    version: master
+- git:
+    local-name: ros-drivers/openni2_camera
+    uri: https://github.com/ros-drivers/openni2_camera.git
+    version: indigo-devel
+- git:
+    local-name: ros-perception/vision_opencv
+    uri: git@github.com:wkentaro/vision_opencv.git
+    version: label-occupancy-octree
+- git:
     local-name: start-jsk/jsk_apc
-    uri: https://github.com/start-jsk/jsk_apc.git
+    uri: git@github.com:wkentaro/jsk_apc.git
+    version: label-occupancy-octomap
+- git:
+    local-name: start-jsk/rtmros_common
+    uri: https://github.com/start-jsk/rtmros_common.git
+    version: master
+- git:
+    local-name: start-jsk/rtmros_gazebo
+    uri: https://github.com/start-jsk/rtmros_gazebo.git
     version: master
 - git:
     local-name: start-jsk/rtmros_hrp2
-    uri: https://github.com/start-jsk/rtmros_hrp2.git
+    uri: git@github.com:start-jsk/rtmros_hrp2.git
     version: master
 - git:
     local-name: start-jsk/rtmros_tutorials
     uri: https://github.com/start-jsk/rtmros_tutorials.git
     version: master
 - git:
+    local-name: wkentaro/fcn-3d
+    uri: git@github.com:wkentaro/fcn-3d.git
+    version: master
+- git:
     local-name: wkentaro/hrp2_apc
     uri: git@github.com:wkentaro/hrp2_apc.git
+    version: label-occupancy-octree
+- git:
+    local-name: wkentaro/icra2017
+    uri: git@github.com:wkentaro/icra2017.git
     version: master
