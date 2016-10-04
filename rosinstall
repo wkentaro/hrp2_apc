@@ -61,7 +61,7 @@
 - git:
     local-name: wkentaro/hrp2_apc
     uri: git@github.com:wkentaro/hrp2_apc.git
-    version: label-occupancy-octree
+    version: master
 - git:
     local-name: wkentaro/icra2017
     uri: git@github.com:wkentaro/icra2017.git
