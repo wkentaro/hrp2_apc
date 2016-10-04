@@ -1,0 +1,56 @@
+<launch>
+
+  <arg name="gui" default="true" />
+
+  <node name="image_publisher"
+        pkg="jsk_perception" type="image_publisher.py">
+    <rosparam subst_value="true">
+      file_name: $(find hrp2_apc)/sample/image/bin_view_0001.jpg
+      publish_info: false
+      encoding: bgr8
+    </rosparam>
+  </node>
+
+  <arg name="INPUT_IMAGE" value="image_publisher/output" />
+
+  <rosparam command="load" file="$(find hrp2_apc)/config/label_names.yaml" />
+
+  <node name="fcn_object_segmentation"
+        pkg="jsk_perception" type="fcn_object_segmentation.py">
+    <remap from="~input" to="$(arg INPUT_IMAGE)" />  <!-- rgb timestamp --> 
+    <rosparam subst_value="true">
+      gpu: 0
+      model_name: fcn32s
+      model_h5: $(find jsk_apc2016_common)/trained_data/fcn32s_6000.chainermodel
+    </rosparam>
+    <remap from="~target_names" to="label_names" />
+  </node>
+
+  <node name="extract_image_channel"
+        pkg="jsk_perception" type="extract_image_channel.py">
+    <remap from="~input" to="fcn_object_segmentation/output/proba_image" />
+    <rosparam>
+      channel: 2
+    </rosparam>
+  </node>
+
+  <group if="$(arg gui)">
+    <node name="image_view0"
+          pkg="image_view" type="image_view">
+      <remap from="image" to="image_publisher/output" />
+    </node>
+    <node name="image_view1"
+          pkg="image_view" type="image_view">
+      <remap from="image" to="fcn_object_segmentation/output" />
+    </node>
+    <node name="image_view2"
+          pkg="image_view" type="image_view">
+      <remap from="image" to="extract_image_channel/output" />
+      <rosparam>
+        do_dynamic_scaling: true
+        colormap: 2  <!-- jet -->
+      </rosparam>
+    </node>
+  </group>
+
+</launch>

@@ -1,0 +1,6 @@
+boxes:
+- dimensions: [0.14, 0.14, 0.13]
+  frame_id: odom
+  name: object_2
+  orientation: [0.0, 0.0, 0.0, 1.0]
+  position: [1.3297311067581177, -0.1385972499847412, 1.1604444980621338]
