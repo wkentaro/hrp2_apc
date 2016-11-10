@@ -59,11 +59,11 @@ def plot_v2(csv_file):
              marker='o', label='Single View')
     # multi-views
     elapsed_time = (df_mv.stamp - t_start) * 1e-9
-    p1 = plt.plot(elapsed_time, df_mv.iu, color=colors[1],
-                  marker='o', label='Multi Views')
+    plt.plot(elapsed_time, df_mv.iu, color=colors[1],
+             marker='o', label='Multi Views')
     #
     plt.xlim(0, 40)
-    plt.legend(loc='center left')
+    plt.legend(loc='upper left')
     plt.ylabel('IU')
 
     # camera velocity
