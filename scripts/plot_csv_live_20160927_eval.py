@@ -62,6 +62,7 @@ def plot_v2(csv_file):
     p1 = plt.plot(elapsed_time, df_mv.iu, color=colors[1],
                   marker='o', label='Multi Views')
     #
+    plt.xlim(0, 40)
     plt.legend(loc='center left')
     plt.ylabel('IU')
 
@@ -71,6 +72,7 @@ def plot_v2(csv_file):
     plt.subplot(212)
     plt.plot(elapsed_time, df_mv.camera_velocity * 1e3,
              marker='o', color=colors[2], label='camera velocity')
+    plt.xlim(0, 40)
     plt.xlabel('Time [sec]')
     plt.ylabel('Camera Velocity [$10^-3$ m/s]')
 
