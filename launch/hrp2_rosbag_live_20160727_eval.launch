@@ -8,6 +8,7 @@
     <arg name="rviz" value="false" />
     <arg name="rosbag_option" value="$(arg rosbag_option)" />
   </include>
+  <arg name="MANAGER" value="rosbag_play_nodelet_manager" />
 
   <node name="transformable_interactive_server"
         pkg="jsk_interactive_marker" type="transformable_server_sample">
@@ -33,16 +34,44 @@
     </rosparam>
   </node>
 
+  <!-- multi-views -->
   <node name="octomap_to_marker_array"
         pkg="nodelet" type="nodelet"
-        args="standalone octomap_server/OctoMapToMarkerArray">
+        args="load octomap_server/OctoMapToMarkerArray $(arg MANAGER)">
     <remap from="~input" to="/hrp2_apc/fcn/octomap_full" />
   </node>
+
+  <!-- single-views -->
+  <group ns="/hrp2_apc/fcn">
+    <node name="tf_transform_cloud"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl/TfTransformCloud /$(arg MANAGER)">
+      <remap from="~input" to="extract_indices_bench/output" />
+      <rosparam>
+        target_frame_id: odom
+      </rosparam>
+    </node>
+    <node name="octree_voxel_grid"
+          pkg="nodelet" type="nodelet"
+          args="load jsk_pcl/OctreeVoxelGrid /$(arg MANAGER)">
+      <remap from="~input" to="tf_transform_cloud/output" />
+      <rosparam>
+        resolution: 0.01
+        marker_color: flat
+        publish_marker: true
+      </rosparam>
+    </node>
+    <node name="marker_to_marker_array"
+          pkg="jsk_recognition_utils" type="marker_to_marker_array.py">
+      <remap from="~input" to="octree_voxel_grid/output_marker" />
+    </node>
+  </group>
 
   <node name="evaluate_voxel_segmentation"
         pkg="hrp2_apc" type="evaluate_voxel_segmentation">
     <remap from="~input/bbox_gt" to="bbox_array_to_bbox/output" />
     <remap from="~input/voxels" to="octomap_to_marker_array/output" />
+    <remap from="~input/voxels_single_view" to="/hrp2_apc/fcn/marker_to_marker_array/output" />
   </node>
 
   <group if="$(arg rviz)">

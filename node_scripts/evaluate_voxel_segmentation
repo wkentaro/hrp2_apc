@@ -49,32 +49,38 @@ def compute_iu_between_voxels_and_bbox(marker_array, bbox):
 class EvaluateVoxelOctomap(object):
 
     def __init__(self):
-        self.prev_stamp = rospy.Time(0)
+        # key is is_single_view
+        self.prev_stamp = {True: rospy.Time(0), False: rospy.Time(0)}
+
         self.bbox = None
         self.tf_listener = tf.TransformListener()
         rp = rospkg.RosPack()
         # TODO(wkentaro): Generalize path
         self.log_file = osp.join(rp.get_path('hrp2_apc'), 'log.txt')
         with open(self.log_file, 'a') as f:
-            f.write('stamp,volume_tp,volume_fn,volume_fp,iu,camera_velocity\n')
+            f.write('stamp,camera_velocity,volume_tp,volume_fn,volume_fp,iu,single_view\n')
         self.subscribe()
 
     def subscribe(self):
         self.sub_box_gt = rospy.Subscriber(
             '~input/bbox_gt', BoundingBox, self.cb_bbox)
         self.sub_voxels = rospy.Subscriber(
-            '~input/voxels', MarkerArray, self.cb_voxels)
+            '~input/voxels', MarkerArray, self.cb_voxels,
+            callback_args=False)
+        self.sub_voxels_single_view = rospy.Subscriber(
+            '~input/voxels_single_view', MarkerArray, self.cb_voxels,
+            callback_args=True)
 
     def cb_bbox(self, bbox_msg):
         self.bbox = bbox_msg
         self.sub_box_gt.unregister()
 
-    def cb_voxels(self, marker_array_msg):
+    def cb_voxels(self, marker_array_msg, is_single_view):
         stamp = marker_array_msg.markers[0].header.stamp
-        if stamp < self.prev_stamp:
+        if stamp < self.prev_stamp[is_single_view]:
             rospy.logwarn('Time is reversed, skipping.')
             return
-        self.prev_stamp = stamp
+        self.prev_stamp[is_single_view] = stamp
         # TODO(wkentaro): Generalize frames
         if self.bbox is None:
             rospy.logerr('Bounding box annotated by human is not set.')
@@ -92,10 +98,12 @@ class EvaluateVoxelOctomap(object):
             self.bbox,
         )
         with open(self.log_file, 'a') as f:
-            f.write('{stamp},{tp},{fn},{fp},{iu},{vel}\n'.format(
-                    stamp=stamp.to_nsec(),
-                    tp=tp, fn=fn, fp=fp, iu=iu,
-                    vel=velocity))
+            f.write('{stamp},{vel},{tp},{fn},{fp},{iu},{is_sv}\n'
+                    .format(stamp=stamp.to_nsec(),
+                            vel=velocity,
+                            tp=tp, fn=fn, fp=fp, iu=iu,
+                            is_sv=is_single_view))
+
 
 if __name__ == '__main__':
     rospy.init_node('evaluate_voxel_segmentation')

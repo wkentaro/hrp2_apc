@@ -7,13 +7,7 @@ import pandas as pd
 import seaborn as sns
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('csv_file')
-    args = parser.parse_args()
-
-    csv_file = args.csv_file
-
+def plot_v1(csv_file):
     df = pd.DataFrame.from_csv(csv_file, index_col=None)
     df = df[:-70]
     print(df.columns)
@@ -45,6 +39,57 @@ def main():
     plt.ylabel('Camera Velocity [$10^-3$ m/s]')
 
     plt.show()
+
+
+def plot_v2(csv_file):
+    df = pd.DataFrame.from_csv(csv_file, index_col=None)
+    print(df.columns)
+
+    colors = sns.husl_palette(3, l=.5, s=.5)
+
+    df_mv = df.query('single_view == False')
+    t_start = df_mv.iloc[0].stamp
+    df_sv = df.query('single_view == True')
+    df_sv = df_sv.query('stamp >= {0}'.format(t_start))
+
+    plt.subplot(211)
+    # single-view
+    elapsed_time = (df_sv.stamp - t_start) * 1e-9
+    plt.plot(elapsed_time, df_sv.iu, color=colors[0],
+             marker='o', label='Single View')
+    # multi-views
+    elapsed_time = (df_mv.stamp - t_start) * 1e-9
+    p1 = plt.plot(elapsed_time, df_mv.iu, color=colors[1],
+                  marker='o', label='Multi Views')
+    #
+    plt.legend(loc='center left')
+    plt.ylabel('IU')
+
+    # camera velocity
+    elapsed_time = (df_mv.stamp - t_start) * 1e-9
+
+    plt.subplot(212)
+    plt.plot(elapsed_time, df_mv.camera_velocity * 1e3,
+             marker='o', color=colors[2], label='camera velocity')
+    plt.xlabel('Time [sec]')
+    plt.ylabel('Camera Velocity [$10^-3$ m/s]')
+
+    plt.show()
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('csv_file')
+    parser.add_argument('-v', '--version', type=int, default=2)
+    args = parser.parse_args()
+
+    csv_file = args.csv_file
+    version = args.version
+
+    if version == 1:
+        plot_v1(csv_file)
+    else:
+        plot_v2(csv_file)
 
 
 if __name__ == '__main__':
