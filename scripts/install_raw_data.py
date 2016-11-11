@@ -27,14 +27,6 @@ def main():
 
     download_data(
         pkg_name=PKG,
-        path='raw_data/hrp2_apc_2016-07-27-21-06-33.bag',
-        url='https://drive.google.com/uc?id=0B9P1L--7Wd2vUTZjUHlfUVFSM1k',
-        md5='9e575b0a7d630d050a3a42a7f5b364a1',
-        quiet=quiet,
-    )
-
-    download_data(
-        pkg_name=PKG,
         path='raw_data/hrp2_apc_2016-07-27-22-08-02.bag',
         url='https://drive.google.com/uc?id=0B9P1L--7Wd2vMDA4NW9YSEpoczQ',
         md5='9f43c592d1fd9a88b29117172be77a17',
