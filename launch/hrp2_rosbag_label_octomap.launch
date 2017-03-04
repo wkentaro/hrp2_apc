@@ -9,6 +9,7 @@
   <include file="$(find jsk_data)/launch/hrp2_play.launch">
     <arg name="ROBOT" value="$(arg ROBOT)" />
     <arg name="bagfile_names" value="$(find hrp2_apc)/raw_data/hrp2_apc_2016-07-27-22-08-02.bag" />
+    <arg name="launch_robot_model" value="false" />
     <arg name="launch_openni" value="true" />
     <arg name="launch_multisense" value="false" />
     <arg name="rosbag_option" value="--clock --loop" />
@@ -48,7 +49,7 @@
       <rosparam subst_value="true">
         gpu: 0
         model_name: fcn32s
-        model_h5: $(find jsk_apc2016_common)/trained_data/fcn32s_6000.chainermodel
+        model_h5: $(find jsk_apc2016_common)/trained_data/fcn32s_v2_148000.chainermodel
       </rosparam>
       <remap from="~target_names" to="/label_names" />
     </node>
