@@ -78,6 +78,27 @@
         sensor_model/max_range: 2.0
       </rosparam>
     </node>
+    <!--
+    <node name="extract_image_channel"
+          pkg="jsk_perception" type="extract_image_channel.py">
+      <remap from="~input" to="fcn_object_segmentation/output/proba_image/quarter" />
+      <rosparam>
+        channel: 2
+      </rosparam>
+    </node>
+    <node name="label_octomap_server"
+          pkg="octomap_server" type="single_label_octomap_server">
+      <remap from="cloud_in" to="/camera_remote/depth_registered_half/points" />
+      <remap from="proba_image_in" to="extract_image_channel/output" />
+      <rosparam>
+        frame_id: odom
+        resolution: 0.02
+        latch: false
+        publish_periodically: true
+        sensor_model/max_range: 2.0
+      </rosparam>
+    </node>
+    -->
   </group>
 
   <!-- visualization-based evaluation -->
