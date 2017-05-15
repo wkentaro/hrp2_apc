@@ -3,7 +3,7 @@
   <version>0.0.1</version>
 
   <description>
-    Amazon Picking Challenge with HRP2 robot
+    3D object segmentation for shelf bin picking by humanoid with deep learning and occupancy voxel grid map.
   </description>
   <author email="www.kentaro.wada@gmail.com">Kentaro Wada</author>
   <maintainer email="www.kentaro.wada@gmail.com">Kentaro Wada</maintainer>
@@ -12,15 +12,6 @@
   <url>http://github.com/wkentaro/hrp2_apc</url>
 
   <buildtool_depend>catkin</buildtool_depend>
-
-  <build_depend>hrpsys_ros_bridge_tutorials</build_depend>
-  <build_depend>jsk_2015_05_baxter_apc</build_depend>
-  <build_depend>jsk_apc2016_common</build_depend>
-  <build_depend>jsk_data</build_depend>
-  <build_depend>jsk_pcl_ros</build_depend>
-  <build_depend>jsk_perception</build_depend>
-  <build_depend>octomap_server</build_depend>
-  <build_depend>resized_image_transport</build_depend>
 
   <run_depend>hrpsys_ros_bridge_tutorials</run_depend>
   <run_depend>jsk_2015_05_baxter_apc</run_depend>
