@@ -19,6 +19,39 @@ Citation
   }
 
 
+Installation
+------------
+
+.. code-block:: bash
+
+  mkdir -p ~/catkin_ws/src
+  cd ~/catkin_ws
+  catkin init
+
+  wstool init src https://raw.githubusercontent.com/wkentaro/hrp2_apc/master/rosinstall
+  rosdep install --from-path . -r -y -i
+  catkin build
+
+  export ROBOT=HRP2JSKNTS
+
+
+Usage
+-----
+
+Download rosbag data.
+
+.. code-block:: bash
+
+  rosrun hrp2_apc install_raw_data.py
+
+
+Looking around demo.
+
+.. code-block:: bash
+
+  roslaunch hrp2_apc hrp2_rosbag_apc_look_around.launch
+
+
 Private
 -------
 
