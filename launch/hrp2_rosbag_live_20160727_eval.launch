@@ -68,7 +68,7 @@
   </group>
 
   <node name="evaluate_voxel_segmentation"
-        pkg="hrp2_apc" type="evaluate_voxel_segmentation">
+        pkg="hrp2_apc" type="evaluate_voxel_segmentation.py">
     <remap from="~input/bbox_gt" to="bbox_array_to_bbox/output" />
     <remap from="~input/voxels" to="octomap_to_marker_array/output" />
     <remap from="~input/voxels_single_view" to="/hrp2_apc/fcn/marker_to_marker_array/output" />
