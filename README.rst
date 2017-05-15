@@ -4,8 +4,8 @@ hrp2_apc
 3D object segmentation for shelf bin picking by humanoid with deep learning and occupancy voxel grid map.
 
 
-Citations
----------
+Citation
+--------
 
 .. code-block:: bib
 
