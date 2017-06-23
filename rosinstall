@@ -1,3 +1,7 @@
+- hg:
+    local-name: crl/multisense
+    uri: https://bitbucket.org/crl/multisense_ros
+    version: 3.4.9
 - git:
     local-name: OctoMap/octomap
     uri: git@github.com:wkentaro/octomap.git
