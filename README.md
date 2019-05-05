@@ -12,8 +12,8 @@
 ```bib
 @InProceedings{Wada:etal:Humanoids2016,
   title={{3D Object Segmentation for Shelf Bin Picking by Humanoid with Deep Learning and Occupancy Voxel Grid Map}},
-  author={Wada, Kentaro and Murooka, Masaki and Okada, Kei and Inaba, Masayuki},
-  booktitle={IEEE-RAS International Conference on Humanoid Robots (Humanoids)},
+  author={Kentaro Wada and Masaki Murooka and Kei Okada and Masayuki Inaba},
+  booktitle={Proceedings of the IEEE-RAS International Conference on Humanoid Robots (Humanoids)},
   year={2016},
 }
 ```
