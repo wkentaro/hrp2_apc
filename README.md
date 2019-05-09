@@ -3,9 +3,14 @@
 3D Object Segmentation for Shelf Bin Picking by Humanoid with Deep Learning and Occupancy Voxel Grid Map
 
 
-<a href="https://www.youtube.com/watch?v=4zKFnVIGB_I&t=10s">
+<a href="https://www.youtube.com/watch?v=4zKFnVIGB_I">
  <img src="http://i3.ytimg.com/vi/4zKFnVIGB_I/maxresdefault.jpg" width="50%" />
 </a>
+<p>
+  <a href="https://www.youtube.com/watch?v=4zKFnVIGB_I">
+    <i>https://www.youtube.com/watch?v=4zKFnVIGB_I</i>
+  </a>
+</p>
 
 ## Citation
 
