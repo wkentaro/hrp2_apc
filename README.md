@@ -1,13 +1,12 @@
-<h1 align="center">
-  hrp2_apc
-</h1>
-
 <div align="center">
+  <h1>hrp2_apc</h1>
   <h4>
-    3D Object Segmentation for Shelf Bin Picking by Humanoid with Deep Learning and Occupancy Voxel Grid Map
+    3D Object Segmentation for Shelf Bin Picking by Humanoid with Deep Learning and Occupancy Voxel Grid Map (Humanoids2016)
   </h4>
   <p>
-    <a href="https://drive.google.com/open?id=0B9P1L--7Wd2vX2o0bkFSaUw1ODA">Paper</a>
+    <a href="https://ieeexplore.ieee.org/document/7803415">Paper (IEEE)</a>
+    |
+    <a href="https://drive.google.com/open?id=0B9P1L--7Wd2vX2o0bkFSaUw1ODA">Paper (Gdrive)</a>
     |
     <a href="https://www.youtube.com/watch?v=4zKFnVIGB_I">Video</a>
     |
@@ -19,7 +18,7 @@
   </p>
 
   <a href="https://www.youtube.com/watch?v=4zKFnVIGB_I">
-  <img src="http://i3.ytimg.com/vi/4zKFnVIGB_I/maxresdefault.jpg" width="50%" />
+    <img src=".readme/20160803_humanoids2016.gif" />
   </a>
 </div>
 
