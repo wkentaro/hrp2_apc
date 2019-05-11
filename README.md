@@ -1,20 +1,31 @@
-# hrp2_apc
+<h1 align="center">
+  hrp2_apc
+</h1>
 
-3D Object Segmentation for Shelf Bin Picking by Humanoid with Deep Learning and Occupancy Voxel Grid Map
+<div align="center">
+  <h4>
+    3D Object Segmentation for Shelf Bin Picking by Humanoid with Deep Learning and Occupancy Voxel Grid Map
+  </h4>
+  <p>
+    <a href="https://drive.google.com/open?id=0B9P1L--7Wd2vX2o0bkFSaUw1ODA">Paper</a>
+    |
+    <a href="https://www.youtube.com/watch?v=4zKFnVIGB_I">Video</a>
+    |
+    <a href="https://drive.google.com/open?id=0B9P1L--7Wd2vWDNEVm5hZF9CUDA">Slides</a>
+    |
+    <a href="https://drive.google.com/open?id=0B9P1L--7Wd2vWDlzMDRNbVpfelE">Poster</a>
+    |
+    <a href="https://github.com/wkentaro/hrp2_apc">Code</a>
+  </p>
 
-
-<a href="https://www.youtube.com/watch?v=4zKFnVIGB_I">
- <img src="http://i3.ytimg.com/vi/4zKFnVIGB_I/maxresdefault.jpg" width="50%" />
-</a>
-<p>
   <a href="https://www.youtube.com/watch?v=4zKFnVIGB_I">
-    <i>https://www.youtube.com/watch?v=4zKFnVIGB_I</i>
+  <img src="http://i3.ytimg.com/vi/4zKFnVIGB_I/maxresdefault.jpg" width="50%" />
   </a>
-</p>
+</div>
 
 ## Citation
 
-```bib
+```
 @InProceedings{Wada:etal:Humanoids2016,
   title={{3D Object Segmentation for Shelf Bin Picking by Humanoid with Deep Learning and Occupancy Voxel Grid Map}},
   author={Kentaro Wada and Masaki Murooka and Kei Okada and Masayuki Inaba},
@@ -51,7 +62,9 @@ Looking around demo.
 roslaunch hrp2_apc hrp2_rosbag_apc_look_around.launch
 ```
 
+<!--
 ## Private
 
 -  Paper: <https://github.com/wkentaro/hrp2_apc-paper>
 -  Data: <https://drive.google.com/drive/u/1/folders/0B9P1L--7Wd2vUWlQcnZLY0FPeDA>
+-->
